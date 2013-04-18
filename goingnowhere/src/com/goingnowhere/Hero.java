@@ -10,4 +10,20 @@ public class Hero extends DynamicGameObject {
 		super(x, y, HERO_WIDTH, HERO_HEIGHT);
 		state = 0;
 	}
+	
+	public void update(){
+		
+	}
+	
+	public void run(boolean direction){
+		
+	}
+	
+	public void jump(){
+		
+	}
+	
+	public void shoot(){
+		
+	}
 }
