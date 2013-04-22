@@ -1,4 +1,4 @@
-package com.goingnowhere;
+package com.goingnowhere.logic;
 
 public class Hero extends DynamicGameObject {
 	public static final float HERO_WIDTH = 0.8f;
@@ -11,7 +11,7 @@ public class Hero extends DynamicGameObject {
 		state = 0;
 	}
 	
-	public void update(){
+	public void update(float delta){
 		
 	}
 	

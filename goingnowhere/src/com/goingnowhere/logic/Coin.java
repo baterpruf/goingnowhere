@@ -1,6 +1,6 @@
-package com.goingnowhere;
+package com.goingnowhere.logic;
 
-public class Coin extends DynamicGameObject {
+public class Coin extends GameObject {
 	public static final float COIN_WIDTH = 0.2f;
 	public static final float COIN_HEIGHT = 0.2f;
 	
@@ -8,7 +8,7 @@ public class Coin extends DynamicGameObject {
 		super(x, y, COIN_WIDTH, COIN_HEIGHT);
 	}
 	
-	public void update(){
+	public void update(float delta){
 		
 	}
 	

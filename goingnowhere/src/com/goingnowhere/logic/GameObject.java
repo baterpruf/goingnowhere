@@ -1,4 +1,4 @@
-package com.goingnowhere;
+package com.goingnowhere.logic;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
