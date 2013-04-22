@@ -1,4 +1,4 @@
-package com.goingnowhere;
+package com.goingnowhere.logic;
 
 public class Enemy extends DynamicGameObject {
 	public static final float ENEMY_WIDTH = 0.8f;
@@ -8,7 +8,7 @@ public class Enemy extends DynamicGameObject {
 		super(x, y, ENEMY_WIDTH, ENEMY_HEIGHT);
 	}
 	
-	public void update(){
+	public void update(float delta){
 		
 	}
 	

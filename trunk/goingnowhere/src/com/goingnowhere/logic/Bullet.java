@@ -1,4 +1,5 @@
-package com.goingnowhere;
+package com.goingnowhere.logic;
+
 
 public class Bullet extends DynamicGameObject {
 	public static final float BULLET_WIDTH = 0.2f;
@@ -11,7 +12,7 @@ public class Bullet extends DynamicGameObject {
 		this.direction = direction;
 	}
 	
-	public void update(){
+	public void update(float delta){
 		
 	}
 	
