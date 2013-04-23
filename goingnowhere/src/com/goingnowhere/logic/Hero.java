@@ -19,12 +19,16 @@ public class Hero extends DynamicGameObject {
 		state = IDLE;
 	}
 	
-	public void update(float delta){
-		
+	public void update(float deltaTime){
+		velocity.add(World.gravity.x * deltaTime, World.gravity.y * deltaTime);
+		position.add(velocity.x * deltaTime, velocity.y * deltaTime);
+		bounds.x = position.x - bounds.width / 2;
+		bounds.y = position.y - bounds.height / 2;
 	}
 	
 	public void run(int direction){
 		this.direction=direction;
+		state=RUN;
 	}
 	
 	public void jump(){
