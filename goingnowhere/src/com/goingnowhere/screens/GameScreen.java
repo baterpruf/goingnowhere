@@ -12,7 +12,7 @@ public class GameScreen extends BaseScreen {
 
 	@Override
 	public void show () {
-		world = new World(0);
+		world = new World(1);
 	}
 
 	@Override
