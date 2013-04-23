@@ -40,6 +40,7 @@ public class World {
 		this.hero = new Hero(5, 5);//provisionalmente ubicado, depende del map.
 		this.enemies = new ArrayList<Enemy>();
 		this.coins = new ArrayList<Coin>();
+		this.blocks = new ArrayList<Block>();
 		generateLevel();
 		this.state=WORLD_STATE_PLAY;
 		this.score = 0;
@@ -55,7 +56,7 @@ public class World {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				int pix = (pixmap.getPixel(x, y) >>> 8) & 0xffffff;
-				Gdx.app.log("Info", "resultado: "+x+"-"+y+"-"+pix);
+				//Gdx.app.log("Info", "resultado: "+x+"-"+y+"-"+pix);
 				//pix = 1;
 				if (match(pix, START)) {
 					hero = new Hero( x, height - 1 - y);
