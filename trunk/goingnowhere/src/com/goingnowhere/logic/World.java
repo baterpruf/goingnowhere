@@ -14,7 +14,7 @@ public class World {
 	public static final float WORLD_HEIGHT = 15 * 20;
 	public static final int WORLD_STATE_PAUSE = 0;
 	public static final int WORLD_STATE_PLAY = 1;
-
+	
 	//Códigos de colores del png
 	static int BLOCK = 0x000000;
 	static int START = 0xff0000;
@@ -22,18 +22,21 @@ public class World {
 	static int ENEMY = 0x0000ff;
 	static int COIN = 0x00ff00;
 
+
 	public static final Vector2 gravity = new Vector2(0, -12);
 
 	public Hero hero;
 	public List<Enemy> enemies;
 	public List<Coin> coins;
 	public Exit exit;
-	int[][] blocks;
-
+	public List<Block> blocks;	
+	
+	public int level;
 	public int score;
 	public int state;
 
-	public World() {
+	public World(int level) {
+		this.level=level;
 		this.hero = new Hero(5, 5);//provisionalmente ubicado, depende del map.
 		this.enemies = new ArrayList<Enemy>();
 		this.coins = new ArrayList<Coin>();
@@ -44,25 +47,22 @@ public class World {
 
 	private void generateLevel () {
 		//Leer el png y poner los objetos donde toca.
-		Pixmap pixmap = new Pixmap(Gdx.files.internal("data/map.png"));
+		Pixmap pixmap = new Pixmap(Gdx.files.internal("data/map"+level+".png"));
 		int height = pixmap.getHeight();
 		int width = pixmap.getWidth();
-		blocks = new int[width][height];
-		for (int y = 0; y < 35; y++) {
-			for (int x = 0; x < 150; x++) {
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
 				int pix = (pixmap.getPixel(x, y) >>> 8) & 0xffffff;
 				if (match(pix, START)) {
 					hero = new Hero( x, height - 1 - y);
-					hero.state = Hero.IDLE;
 				} else if (match(pix, ENEMY)) {
-					Enemy enemy = new Enemy(x, height - 1 - y);
-					enemies.add(enemy);
+					enemies.add(new Enemy(x, height - 1 - y));
 				} else if (match(pix, COIN)) {
 					coins.add(new Coin(x, height - 1 - y));
 				} else if (match(pix, END)) {
 					exit = new Exit(x, height - 1 - y);
 				} else if (match(pix, BLOCK)) {
-					blocks[x][y] = pix;
+					blocks.add(new Block(x, height - 1 - y));
 				}
 			}
 		}
@@ -105,6 +105,13 @@ public class World {
 	}
 
 	private void checkBlockCollisions () {
+		int len = blocks.size();
+		for (int i = 0; i < len; i++) {
+			Block block = blocks.get(i);
+			if (CollisionTest.overlapRectangles(block.bounds, hero.bounds)) {
+				//No puede acabarse ese movimiento.
+			}
+		}
 
 	}
 
