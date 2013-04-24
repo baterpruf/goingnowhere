@@ -8,8 +8,8 @@ import com.goingnowhere.utils.CollisionTest;
 public class Hero extends DynamicGameObject {
 	public static final float HERO_WIDTH = 0.8f;
 	public static final float HERO_HEIGHT = 0.8f;
-	public static final float HERO_ACCELERATION = 4f;	
-	public static final float HERO_JUMP_SPEED = 0.8f;
+	public static final float HERO_ACCELERATION = 2f;	
+	public static final float HERO_JUMP_SPEED = 1f;
 	public static final float HERO_MAX_SPEED=2f;
 	public static final float DAMP=0.9f;
 	
@@ -33,9 +33,14 @@ public class Hero extends DynamicGameObject {
 	
 	public void update(float deltaTime){
 		processInput();
-		vel.x=Math.abs(vel.x)*direction;
-		vel.add(World.gravity.x * deltaTime, World.gravity.y * deltaTime);
-		tryMove(deltaTime);
+		accel.x = HERO_ACCELERATION * direction;
+		vel.x+=accel.x*deltaTime;
+		vel.y+= World.gravity.y * deltaTime;
+		//Gdx.app.log("v",""+vel.y );
+		tryMove(vel.x*deltaTime,vel.y*deltaTime);
+		//position.add(vel);
+		//bounds.x+=vel.x;
+		//bounds.y+=vel.y;
 	}
 	
 	private void processInput(){
@@ -43,43 +48,66 @@ public class Hero extends DynamicGameObject {
 		//Los controles podrían ser la mitad inferior izquierda/derecha disparando simultaneamente
 		//y mitad superior donde sea para saltar.
 		//Admito hasta dos toques simultáneos, saltar y disparar.
-		float x0 = (Gdx.input.getX(0) / (float)Gdx.graphics.getWidth()) * 480;
-		float x1 = (Gdx.input.getX(1) / (float)Gdx.graphics.getWidth()) * 480;
-		float y0 = (Gdx.input.getY(0) / (float)Gdx.graphics.getHeight()) * 320;
-		float y1 = (Gdx.input.getY(1) / (float)Gdx.graphics.getHeight()) * 320;
+		boolean touchInput=false;
+		boolean jump=false;
 		
-		if((y0>160 || y1>160 || Gdx.input.isKeyPressed(Keys.W)) && state!=JUMP){
-			jump();
+		if(touchInput && Gdx.input.justTouched()){
+			float x0 = (Gdx.input.getX(0) / (float)Gdx.graphics.getWidth());
+			float x1 = (Gdx.input.getX(1) / (float)Gdx.graphics.getWidth());
+			float y0 = (Gdx.input.getY(0) / (float)Gdx.graphics.getHeight());
+			float y1 = (Gdx.input.getY(1) / (float)Gdx.graphics.getHeight());
+			if(y0>0.5 || y1>0.5){
+				jump=true;
+			}else if(x0<0.5 || x1<0.5){
+				direction=-1;
+				shoot();
+			}else{
+				direction=1;
+				shoot();
+			}
+			
 		}
-		if((x0<240 && y0<160) || (x1<240 && y1<160) || Gdx.input.isKeyPressed(Keys.A)){
-			direction=-1;
-			shoot();
+		if(!touchInput){
+			if((Gdx.input.isKeyPressed(Keys.W)) && state!=JUMP){
+				jump=true;
+			}
+			if(Gdx.input.isKeyPressed(Keys.A)){
+				direction=-1;
+				shoot();
+				Gdx.app.log("ini","jump!" );
+			}
+			if(Gdx.input.isKeyPressed(Keys.D)){
+				direction=1;
+				shoot();
+			}
 		}
-		if((x0>240 && y0<160) || (x1>240 && y1<160) || Gdx.input.isKeyPressed(Keys.D)){
-			direction=1;
-			shoot();
-		}
+		if(jump)jump();
 		
 	}
-	private void tryMove(float deltaTime){
+	private void tryMove(float dx,float dy){
 		float stepX, stepY;
-		//TODO hacer una lista de bloques candidatos a colisión para no tener que mirar todos y mejorar rendiimento
+		//TODO hacer una lista de bloques candidatos a colisión para no tener que mirar todos y mejorar rendimiento
 		//TODO si se va a mantener la cuadrícula de bloques del map se podría simplificar mucho todo teniendo en cuenta que 
 		//...solo vas a encontrar bloques en las posiciones enteras
 		int len = world.blocks.size();
 		for (int i = 0; i < len; i++) {
 			Block block = world.blocks.get(i);
-			for(stepX=0;stepX<vel.x;stepX+=0.1f){
-				bounds.x+=stepX;
+			for(stepX=0;stepX<Math.abs(dx);stepX+=0.01f){
+				bounds.x+=stepX*Math.signum(dx);
+				Gdx.app.log("a",""+stepX);
 				if (CollisionTest.overlapRectangles(block.bounds, bounds)) {
-					bounds.x-=stepX;
+					bounds.x-=stepX*Math.signum(dx);
+					vel.x=0;
 					break;
 				}
 			}
-			for(stepY=0;stepY<vel.y;stepY+=0.1f){
-				bounds.y+=stepY;
-				if (!CollisionTest.overlapRectangles(block.bounds, bounds)) {
-					bounds.y-=stepY;
+			Gdx.app.log("a",""+Math.abs(dy));
+			for(stepY=0;stepY<Math.abs(dy);stepY+=0.01f){
+				Gdx.app.log("entra",""+Math.abs(dy));
+				bounds.y+=stepY*Math.signum(dy);
+				if (CollisionTest.overlapRectangles(block.bounds, bounds)) {
+					bounds.y-=stepY*Math.signum(dy);
+					vel.y=0;
 					break;
 				}
 			}

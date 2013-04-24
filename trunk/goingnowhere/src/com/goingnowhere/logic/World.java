@@ -23,7 +23,7 @@ public class World {
 	static int COIN = 0x00ff00;
 
 
-	public static final Vector2 gravity = new Vector2(0, -12);
+	public static final Vector2 gravity = new Vector2(0, -0.9f);
 
 	public Hero hero;
 	public List<Enemy> enemies;
@@ -52,17 +52,19 @@ public class World {
 		int width = pixmap.getWidth();
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
+				int xp = x+20;
+				int yp = (height - 1 - y)*20;
 				int pix = (pixmap.getPixel(x, y) >>> 8) & 0xffffff;
 				if (match(pix, START)) {
-					hero = new Hero( this, x, height - 1 - y);
+					hero = new Hero( this, xp, yp);
 				} else if (match(pix, ENEMY)) {
-					enemies.add(new Enemy(x, height - 1 - y));
+					enemies.add(new Enemy(xp, yp));
 				} else if (match(pix, COIN)) {
-					coins.add(new Coin(x, height - 1 - y));
+					coins.add(new Coin(xp, yp));
 				} else if (match(pix, END)) {
-					exit = new Exit(x, height - 1 - y);
+					exit = new Exit(xp, yp);
 				} else if (match(pix, BLOCK)) {
-					blocks.add(new Block(x, height - 1 - y));
+					blocks.add(new Block(xp, yp));
 				}
 			}
 		}
