@@ -1,6 +1,7 @@
 package com.goingnowhere.logic;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 
 public class Hero extends DynamicGameObject {
 	public static final float HERO_WIDTH = 0.8f;
@@ -39,19 +40,17 @@ public class Hero extends DynamicGameObject {
 		float y0 = (Gdx.input.getY(0) / (float)Gdx.graphics.getHeight()) * 320;
 		float y1 = (Gdx.input.getY(1) / (float)Gdx.graphics.getHeight()) * 320;
 		
-		if(((x0<240 && y0>160) || (x1<240 && y1>160)) && state!=JUMP){
-			//Saltar
+		if(((x0<240 && y0>160) || (x1<240 && y1>160) || Gdx.input.isKeyPressed(Keys.W)) && state!=JUMP){
 			jump();
-			
 		}
-		if((x0>240 && y0>160) || (x1>240 && y1>160)){
-			//Disparar
+		if((x0>240 && y0>160) || (x1>240 && y1>160) || Gdx.input.isKeyPressed(Keys.SPACE)){
+			shoot();
 		}
-		if((x0<240 && y0<160) || (x1<240 && y1<160)){
-			//Dirección izquierda
+		if((x0<240 && y0<160) || (x1<240 && y1<160) || Gdx.input.isKeyPressed(Keys.A)){
+			direction=-1;
 		}
-		if((x0>240 && y0<160) || (x1>240 && y1<160)){
-			//Dirección derecha
+		if((x0>240 && y0<160) || (x1>240 && y1<160) || Gdx.input.isKeyPressed(Keys.D)){
+			direction=1;
 		}
 		
 	}
