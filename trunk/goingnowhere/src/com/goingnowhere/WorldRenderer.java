@@ -39,7 +39,7 @@ public class WorldRenderer {
 	      batch.begin();
 	      batch.draw(backgroundImage, -240,-192);
 	      batch.draw(mapImage, -240,-192);
-	      batch.draw(heroImage, world.hero.position.x*15-240, world.hero.position.y*15);
+	      batch.draw(heroImage, world.hero.position.x-240, world.hero.position.y);
 	      batch.end();
 	}
 }
