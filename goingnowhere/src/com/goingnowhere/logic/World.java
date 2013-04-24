@@ -72,15 +72,15 @@ public class World {
 		return src == dst;
 	}
 
-	public void update (float deltaTime, float accelX) {
-		updateHero(deltaTime, accelX);
+	public void update (float deltaTime) {
+		updateHero(deltaTime);
 		updateEnemies(deltaTime);
 		updateCoins(deltaTime);
 		checkCollisions();
 		checkGameOver();
 	}
 
-	private void updateHero (float deltaTime, float accelX) {
+	private void updateHero (float deltaTime) {
 		hero.update(deltaTime);
 	}
 

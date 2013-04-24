@@ -64,17 +64,19 @@ public class Hero extends DynamicGameObject {
 	private void tryMove(float deltaTime){
 		float stepX, stepY;
 		//TODO hacer una lista de bloques candidatos a colisión para no tener que mirar todos y mejorar rendiimento
+		//TODO si se va a mantener la cuadrícula de bloques del map se podría simplificar mucho todo teniendo en cuenta que 
+		//...solo vas a encontrar bloques en las posiciones enteras
 		int len = world.blocks.size();
 		for (int i = 0; i < len; i++) {
 			Block block = world.blocks.get(i);
-			for(stepX=0;stepX<vel.x;stepX+=0.05f){
+			for(stepX=0;stepX<vel.x;stepX+=0.1f){
 				bounds.x+=stepX;
 				if (CollisionTest.overlapRectangles(block.bounds, bounds)) {
 					bounds.x-=stepX;
 					break;
 				}
 			}
-			for(stepY=0;stepY<vel.y;stepY+=0.05f){
+			for(stepY=0;stepY<vel.y;stepY+=0.1f){
 				bounds.y+=stepY;
 				if (!CollisionTest.overlapRectangles(block.bounds, bounds)) {
 					bounds.y-=stepY;
@@ -82,9 +84,8 @@ public class Hero extends DynamicGameObject {
 				}
 			}
 		}
-		position.add(vel.x * deltaTime, vel.y * deltaTime);
-		bounds.x = position.x - bounds.width / 2;
-		bounds.y = position.y - bounds.height / 2;
+		position.x = bounds.x - bounds.width / 2;
+		position.y = bounds.y - bounds.height / 2;
 		
 	}
 	public void run(int direction){
