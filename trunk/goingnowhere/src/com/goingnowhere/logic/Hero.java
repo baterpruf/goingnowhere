@@ -88,26 +88,32 @@ public class Hero extends DynamicGameObject {
 		//TODO hacer una lista de bloques candidatos a colisión para no tener que mirar todos y mejorar rendimiento
 		//TODO si se va a mantener la cuadrícula de bloques del map se podría simplificar mucho todo teniendo en cuenta que 
 		//...solo vas a encontrar bloques en las posiciones enteras
+		
+		bounds.x+=dx*20;
+		bounds.y+=dy*20;
+		boolean contact=false;
 		int len = world.blocks.size();
 		for (int i = 0; i < len; i++) {
 			Block block = world.blocks.get(i);
-			for(stepX=0;stepX<Math.abs(dx);stepX+=0.01f){
-				bounds.x+=stepX*Math.signum(dx);
-				if (CollisionTest.overlapRectangles(block.bounds, bounds)) {
-					bounds.x-=stepX*Math.signum(dx);
-					vel.x=0;
-					break;
-				}
+			while (CollisionTest.overlapRectangles(block.bounds, bounds)) {
+				bounds.x-=dx/2;
+				contact=true;
 			}
-			for(stepY=0;stepY<Math.abs(dy);stepY+=0.01f){
-				bounds.y+=stepY*Math.signum(dy);
-				if (CollisionTest.overlapRectangles(block.bounds, bounds)) {
-					bounds.y-=stepY*Math.signum(dy);
-					vel.y=0;
-					state=IDLE;
-					break;
-				}
+		}
+		if(contact){
+			vel.x=0;
+			dx=0;
+		}
+		for (int i = 0; i < len; i++) {
+			Block block = world.blocks.get(i);
+			while (CollisionTest.overlapRectangles(block.bounds, bounds)) {
+				bounds.y-=dy/2;
+				contact=true;
 			}
+		}
+		if(contact){
+			vel.y=0;
+			dy=0;
 		}
 		position.x = bounds.x + bounds.width / 2;
 		position.y = bounds.y + bounds.height / 2;
