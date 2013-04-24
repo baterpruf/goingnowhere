@@ -33,7 +33,7 @@ public class MainScreen extends BaseScreen {
 		batch.end();
 
 		time += delta;
-		if (time > 1) {
+		if (time > 0.1) {
 			if (Gdx.input.isKeyPressed(Keys.ANY_KEY) || Gdx.input.justTouched()) {
 				game.setScreen(new GameScreen(game));
 			}
