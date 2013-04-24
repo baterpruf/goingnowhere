@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
+import com.goingnowhere.logic.Block;
 import com.goingnowhere.logic.World;
 
 public class WorldRenderer {
@@ -14,6 +15,7 @@ public class WorldRenderer {
 	SpriteCache cache;
 	SpriteBatch batch;
 	Texture heroImage;
+	Texture blockImage;
 	Texture mapImage;
 	Texture backgroundImage;
 	
@@ -22,6 +24,7 @@ public class WorldRenderer {
 		this.cam = new OrthographicCamera(480, 320);
 		this.cam.position.set(world.hero.position.x, 160, 0);
 		heroImage = new Texture(Gdx.files.internal("data/hero.png"));
+		blockImage = new Texture(Gdx.files.internal("data/block.png"));
 		mapImage = new Texture(Gdx.files.internal("data/background1.png"));
 		backgroundImage = new Texture(Gdx.files.internal("data/background_buildings.png"));
 	    batch = new SpriteBatch();
@@ -39,7 +42,11 @@ public class WorldRenderer {
 	      batch.begin();
 	      batch.draw(backgroundImage, -240,-192);
 	      batch.draw(mapImage, -240,-192);
+	      for(Block bl: world.blocks){
+	    	  batch.draw(blockImage, bl.position.x-240, bl.position.y);
+	      }
 	      batch.draw(heroImage, world.hero.position.x-240, world.hero.position.y);
+	      batch.draw(blockImage, world.hero.position.x-240, world.hero.position.y);
 	      batch.end();
 	}
 }

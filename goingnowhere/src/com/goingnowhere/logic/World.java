@@ -52,7 +52,7 @@ public class World {
 		int width = pixmap.getWidth();
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				int xp = x+20;
+				int xp = x*20;
 				int yp = (height - 1 - y)*20;
 				int pix = (pixmap.getPixel(x, y) >>> 8) & 0xffffff;
 				if (match(pix, START)) {

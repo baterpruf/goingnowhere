@@ -8,7 +8,7 @@ import com.goingnowhere.utils.CollisionTest;
 public class Hero extends DynamicGameObject {
 	public static final float HERO_WIDTH = 0.8f;
 	public static final float HERO_HEIGHT = 0.8f;
-	public static final float HERO_ACCELERATION = 2f;	
+	public static final float HERO_ACCELERATION = 0.3f;	
 	public static final float HERO_JUMP_SPEED = 1f;
 	public static final float HERO_MAX_SPEED=2f;
 	public static final float DAMP=0.9f;
@@ -70,11 +70,11 @@ public class Hero extends DynamicGameObject {
 		if(!touchInput){
 			if((Gdx.input.isKeyPressed(Keys.W)) && state!=JUMP){
 				jump=true;
+				Gdx.app.log("ini","jump!" );
 			}
 			if(Gdx.input.isKeyPressed(Keys.A)){
 				direction=-1;
 				shoot();
-				Gdx.app.log("ini","jump!" );
 			}
 			if(Gdx.input.isKeyPressed(Keys.D)){
 				direction=1;
@@ -94,20 +94,18 @@ public class Hero extends DynamicGameObject {
 			Block block = world.blocks.get(i);
 			for(stepX=0;stepX<Math.abs(dx);stepX+=0.01f){
 				bounds.x+=stepX*Math.signum(dx);
-				Gdx.app.log("a",""+stepX);
 				if (CollisionTest.overlapRectangles(block.bounds, bounds)) {
 					bounds.x-=stepX*Math.signum(dx);
 					vel.x=0;
 					break;
 				}
 			}
-			Gdx.app.log("a",""+Math.abs(dy));
 			for(stepY=0;stepY<Math.abs(dy);stepY+=0.01f){
-				Gdx.app.log("entra",""+Math.abs(dy));
 				bounds.y+=stepY*Math.signum(dy);
 				if (CollisionTest.overlapRectangles(block.bounds, bounds)) {
 					bounds.y-=stepY*Math.signum(dy);
 					vel.y=0;
+					state=IDLE;
 					break;
 				}
 			}
