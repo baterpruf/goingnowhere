@@ -37,7 +37,6 @@ public class World {
 
 	public World(int level) {
 		this.level=level;
-		this.hero = new Hero(5, 5);//provisionalmente ubicado, depende del map.
 		this.enemies = new ArrayList<Enemy>();
 		this.coins = new ArrayList<Coin>();
 		this.blocks = new ArrayList<Block>();
@@ -55,7 +54,7 @@ public class World {
 			for (int x = 0; x < width; x++) {
 				int pix = (pixmap.getPixel(x, y) >>> 8) & 0xffffff;
 				if (match(pix, START)) {
-					hero = new Hero( x, height - 1 - y);
+					hero = new Hero( this, x, height - 1 - y);
 				} else if (match(pix, ENEMY)) {
 					enemies.add(new Enemy(x, height - 1 - y));
 				} else if (match(pix, COIN)) {
