@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.goingnowhere.logic.Block;
@@ -18,6 +19,7 @@ public class WorldRenderer {
 	Texture blockImage;
 	Texture mapImage;
 	Texture backgroundImage;
+	BitmapFont font;
 	
 	public WorldRenderer (World world) {
 		this.world = world;
@@ -35,7 +37,7 @@ public class WorldRenderer {
 
 	      Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 	      Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
+	      cam.position.x=world.hero.position.x;
 	      cam.update();
 	      batch.setProjectionMatrix(cam.combined);
 
@@ -47,6 +49,9 @@ public class WorldRenderer {
 	      }
 	      batch.draw(heroImage, world.hero.position.x-240, world.hero.position.y);
 	      batch.draw(blockImage, world.hero.position.x-240, world.hero.position.y);
+	      font = new BitmapFont();
+	      font.setColor(1024,0,0,128);
+	      font.draw(batch, "h"+(int)world.hero.position.y+" b"+(int)world.hero.bounds.y, 200,300);
 	      batch.end();
 	}
 }
