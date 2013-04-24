@@ -50,14 +50,10 @@ public class World {
 		//Leer el png y poner los objetos donde toca.
 		Pixmap pixmap = new Pixmap(Gdx.files.internal("data/map"+level+".png"));
 		int height = pixmap.getHeight();
-		Gdx.app.log("Info", "altura: "+height);
 		int width = pixmap.getWidth();
-		Gdx.app.log("Info", "ancho: "+width);
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				int pix = (pixmap.getPixel(x, y) >>> 8) & 0xffffff;
-				//Gdx.app.log("Info", "resultado: "+x+"-"+y+"-"+pix);
-				//pix = 1;
 				if (match(pix, START)) {
 					hero = new Hero( x, height - 1 - y);
 				} else if (match(pix, ENEMY)) {
@@ -71,6 +67,7 @@ public class World {
 				}
 			}
 		}
+		//Gdx.app.log("Info", "resultado: "+pix);
 	}
 	boolean match (int src, int dst) {
 		return src == dst;
