@@ -2,12 +2,11 @@ package com.goingnowhere.logic;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Vector2;
 import com.goingnowhere.utils.CollisionTest;
 
 public class Hero extends DynamicGameObject {
-	public static final float HERO_WIDTH = 0.8f;
-	public static final float HERO_HEIGHT = 0.8f;
+	public static final float HERO_WIDTH = 20f;
+	public static final float HERO_HEIGHT = 20f;
 	public static final float HERO_ACCELERATION = 0.3f;	
 	public static final float HERO_JUMP_SPEED = 1f;
 	public static final float HERO_MAX_SPEED=2f;
@@ -110,8 +109,8 @@ public class Hero extends DynamicGameObject {
 				}
 			}
 		}
-		position.x = bounds.x - bounds.width / 2;
-		position.y = bounds.y - bounds.height / 2;
+		position.x = bounds.x + bounds.width / 2;
+		position.y = bounds.y + bounds.height / 2;
 		
 	}
 	public void run(int direction){
