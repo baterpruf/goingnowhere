@@ -5,8 +5,8 @@ import com.badlogic.gdx.Input.Keys;
 import com.goingnowhere.utils.CollisionTest;
 
 public class Hero extends DynamicGameObject {
-	public static final float HERO_WIDTH = 32f;
-	public static final float HERO_HEIGHT = 32f;
+	public static final float HERO_WIDTH = 20f;
+	public static final float HERO_HEIGHT = 20f;
 	public static final float HERO_ACCELERATION = 18f;	
 	public static final float HERO_JUMP_SPEED = 9f;
 	public static final float HERO_MAX_SPEED=12f;
