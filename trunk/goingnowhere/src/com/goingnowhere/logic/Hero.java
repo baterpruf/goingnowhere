@@ -50,17 +50,16 @@ public class Hero extends DynamicGameObject {
 		//Los controles podrían ser la mitad inferior izquierda/derecha disparando simultaneamente
 		//y mitad superior donde sea para saltar.
 		//Admito hasta dos toques simultáneos, saltar y disparar.
-		boolean touchInput=false;
+		boolean touchInput=true;
 		boolean jump=false;
 		
 		if(touchInput && Gdx.input.justTouched()){
 			float x0 = (Gdx.input.getX(0) / (float)Gdx.graphics.getWidth());
-			float x1 = (Gdx.input.getX(1) / (float)Gdx.graphics.getWidth());
 			float y0 = (Gdx.input.getY(0) / (float)Gdx.graphics.getHeight());
-			float y1 = (Gdx.input.getY(1) / (float)Gdx.graphics.getHeight());
-			if(y0>0.5 || y1>0.5){
+			Gdx.app.log("",""+x0);
+			if(y0<0.5 ){
 				jump=true;
-			}else if(x0<0.5 || x1<0.5){
+			}else if(x0<0.5){
 				direction=-1;
 				vel.x=vel.x/3;
 				shoot();
@@ -72,9 +71,8 @@ public class Hero extends DynamicGameObject {
 			
 		}
 		if(!touchInput){
-			if((Gdx.input.isKeyPressed(Keys.W)) && canJump){
+			if((Gdx.input.isKeyPressed(Keys.W))){
 				jump=true;
-				Gdx.app.log("ini","jump!" );
 			}
 			if(Gdx.input.isKeyPressed(Keys.A)){
 				if(direction!=-1){
@@ -92,7 +90,7 @@ public class Hero extends DynamicGameObject {
 				shoot();
 			}
 		}
-		if(jump)jump();
+		if(jump && canJump)jump();
 		
 	}
 	private void tryMove(float dx,float dy){
@@ -107,7 +105,6 @@ public class Hero extends DynamicGameObject {
 			while (CollisionTest.collision(block.bounds, bounds)) {
 				bounds.x-=dx/2;
 				contact=true;
-				Gdx.app.log("2","3");
 			}
 		}
 		if(contact){
