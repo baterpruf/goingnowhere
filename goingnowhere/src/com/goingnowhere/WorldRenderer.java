@@ -29,6 +29,8 @@ public class WorldRenderer {
 		blockImage = new Texture(Gdx.files.internal("data/block.png"));
 		mapImage = new Texture(Gdx.files.internal("data/background1.png"));
 		backgroundImage = new Texture(Gdx.files.internal("data/background_buildings.png"));
+	    font = new BitmapFont();
+	    font.setColor(1024,0,0,128);
 	    batch = new SpriteBatch();
 
 
@@ -49,9 +51,7 @@ public class WorldRenderer {
 	      }
 	      batch.draw(heroImage, world.hero.position.x-240, world.hero.position.y);
 	      batch.draw(blockImage, world.hero.position.x-240, world.hero.position.y);
-	      font = new BitmapFont();
-	      font.setColor(1024,0,0,128);
-	      font.draw(batch, "h"+(int)world.hero.position.y+" b"+(int)world.hero.bounds.y, 200,300);
+	      //font.draw(batch, "h"+(int)world.hero.position.y+" b"+(int)world.hero.bounds.y, 200,300);
 	      batch.end();
 	}
 }
