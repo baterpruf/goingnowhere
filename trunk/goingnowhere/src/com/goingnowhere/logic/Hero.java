@@ -7,9 +7,9 @@ import com.goingnowhere.utils.CollisionTest;
 public class Hero extends DynamicGameObject {
 	public static final float HERO_WIDTH = 20f;
 	public static final float HERO_HEIGHT = 20f;
-	public static final float HERO_ACCELERATION = 0.3f;	
-	public static final float HERO_JUMP_SPEED = 1f;
-	public static final float HERO_MAX_SPEED=2f;
+	public static final float HERO_ACCELERATION = 8f;	
+	public static final float HERO_JUMP_SPEED = 9f;
+	public static final float HERO_MAX_SPEED=8f;
 	public static final float DAMP=0.9f;
 	
 	static final int IDLE = 0;
@@ -36,7 +36,7 @@ public class Hero extends DynamicGameObject {
 		vel.x+=accel.x*deltaTime;
 		vel.y+= World.gravity.y * deltaTime;
 		//Gdx.app.log("v",""+vel.y );
-		tryMove(vel.x*deltaTime,vel.y*deltaTime);
+		tryMove(vel.x*deltaTime*20,vel.y*deltaTime*20);
 		//position.add(vel);
 		//bounds.x+=vel.x;
 		//bounds.y+=vel.y;
@@ -59,9 +59,11 @@ public class Hero extends DynamicGameObject {
 				jump=true;
 			}else if(x0<0.5 || x1<0.5){
 				direction=-1;
+				vel.x=vel.x/3;
 				shoot();
 			}else{
 				direction=1;
+				vel.x=vel.x/3;
 				shoot();
 			}
 			
@@ -72,11 +74,18 @@ public class Hero extends DynamicGameObject {
 				Gdx.app.log("ini","jump!" );
 			}
 			if(Gdx.input.isKeyPressed(Keys.A)){
-				direction=-1;
+				if(direction!=-1){
+					direction=-1;
+					vel.x=vel.x/3;
+				}
 				shoot();
+				
 			}
 			if(Gdx.input.isKeyPressed(Keys.D)){
-				direction=1;
+				if(direction!=1){
+					direction=1;
+					vel.x=vel.x/3;
+				}
 				shoot();
 			}
 		}
@@ -84,31 +93,32 @@ public class Hero extends DynamicGameObject {
 		
 	}
 	private void tryMove(float dx,float dy){
-		float stepX, stepY;
 		//TODO hacer una lista de bloques candidatos a colisión para no tener que mirar todos y mejorar rendimiento
 		//TODO si se va a mantener la cuadrícula de bloques del map se podría simplificar mucho todo teniendo en cuenta que 
 		//...solo vas a encontrar bloques en las posiciones enteras
-		
-		bounds.x+=dx*20;
-		bounds.y+=dy*20;
+		bounds.x+=dx;
 		boolean contact=false;
 		int len = world.blocks.size();
 		for (int i = 0; i < len; i++) {
 			Block block = world.blocks.get(i);
-			while (CollisionTest.overlapRectangles(block.bounds, bounds)) {
+			while (CollisionTest.collision(block.bounds, bounds)) {
 				bounds.x-=dx/2;
 				contact=true;
+				Gdx.app.log("2","3");
 			}
 		}
 		if(contact){
 			vel.x=0;
 			dx=0;
+			contact=false;
 		}
+		bounds.y+=dy;
 		for (int i = 0; i < len; i++) {
 			Block block = world.blocks.get(i);
-			while (CollisionTest.overlapRectangles(block.bounds, bounds)) {
+			while (CollisionTest.collision(block.bounds, bounds)) {
 				bounds.y-=dy/2;
 				contact=true;
+				state=IDLE;
 			}
 		}
 		if(contact){
@@ -117,7 +127,6 @@ public class Hero extends DynamicGameObject {
 		}
 		position.x = bounds.x + bounds.width / 2;
 		position.y = bounds.y + bounds.height / 2;
-		
 	}
 	public void run(int direction){
 		this.direction=direction;
