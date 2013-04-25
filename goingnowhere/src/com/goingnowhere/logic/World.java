@@ -23,7 +23,7 @@ public class World {
 	static int COIN = 0x00ff00;
 
 
-	public static final Vector2 gravity = new Vector2(0, -0.9f);
+	public static final Vector2 gravity = new Vector2(0, -12f);
 
 	public Hero hero;
 	public List<Enemy> enemies;
@@ -111,7 +111,7 @@ public class World {
 		int len = blocks.size();
 		for (int i = 0; i < len; i++) {
 			Block block = blocks.get(i);
-			if (CollisionTest.overlapRectangles(block.bounds, hero.bounds)) {
+			if (CollisionTest.collision(block.bounds, hero.bounds)) {
 				//No puede acabarse ese movimiento.
 			}
 		}
@@ -122,7 +122,7 @@ public class World {
 		int len = enemies.size();
 		for (int i = 0; i < len; i++) {
 			Enemy enemy = enemies.get(i);
-			if (CollisionTest.overlapRectangles(enemy.bounds, hero.bounds)) {
+			if (CollisionTest.collision(enemy.bounds, hero.bounds)) {
 				//morirse o quitar vida
 			}
 		}
