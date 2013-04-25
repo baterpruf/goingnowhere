@@ -5,11 +5,11 @@ import com.badlogic.gdx.Input.Keys;
 import com.goingnowhere.utils.CollisionTest;
 
 public class Hero extends DynamicGameObject {
-	public static final float HERO_WIDTH = 20f;
-	public static final float HERO_HEIGHT = 20f;
-	public static final float HERO_ACCELERATION = 8f;	
+	public static final float HERO_WIDTH = 32f;
+	public static final float HERO_HEIGHT = 32f;
+	public static final float HERO_ACCELERATION = 18f;	
 	public static final float HERO_JUMP_SPEED = 9f;
-	public static final float HERO_MAX_SPEED=8f;
+	public static final float HERO_MAX_SPEED=12f;
 	public static final float DAMP=0.9f;
 	
 	static final int IDLE = 0;
@@ -21,6 +21,7 @@ public class Hero extends DynamicGameObject {
 	
 	int state;
 	int direction;
+	boolean canJump=false;
 	World world;
 	
 	
@@ -33,7 +34,9 @@ public class Hero extends DynamicGameObject {
 	public void update(float deltaTime){
 		processInput();
 		accel.x = HERO_ACCELERATION * direction;
-		vel.x+=accel.x*deltaTime;
+		if(Math.abs(vel.x)<Math.abs(HERO_MAX_SPEED)){
+			vel.x+=accel.x*deltaTime;
+		}
 		vel.y+= World.gravity.y * deltaTime;
 		//Gdx.app.log("v",""+vel.y );
 		tryMove(vel.x*deltaTime*20,vel.y*deltaTime*20);
@@ -69,7 +72,7 @@ public class Hero extends DynamicGameObject {
 			
 		}
 		if(!touchInput){
-			if((Gdx.input.isKeyPressed(Keys.W)) && state!=JUMP){
+			if((Gdx.input.isKeyPressed(Keys.W)) && canJump){
 				jump=true;
 				Gdx.app.log("ini","jump!" );
 			}
@@ -118,7 +121,7 @@ public class Hero extends DynamicGameObject {
 			while (CollisionTest.collision(block.bounds, bounds)) {
 				bounds.y-=dy/2;
 				contact=true;
-				state=IDLE;
+				if(dy<0)canJump=true;
 			}
 		}
 		if(contact){
@@ -136,7 +139,7 @@ public class Hero extends DynamicGameObject {
 	
 	public void jump(){
 		vel.y = HERO_JUMP_SPEED;
-        state = JUMP;
+		canJump=false;
 	}
 	
 	public void shoot(){
