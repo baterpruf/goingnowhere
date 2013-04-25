@@ -24,7 +24,7 @@ public class WorldRenderer {
 	public WorldRenderer (World world) {
 		this.world = world;
 		this.cam = new OrthographicCamera(480, 320);
-		this.cam.position.set(world.hero.position.x, 160, 0);
+		this.cam.position.set(world.hero.position.x-50, 160, 0);
 		heroImage = new Texture(Gdx.files.internal("data/hero.png"));
 		blockImage = new Texture(Gdx.files.internal("data/block.png"));
 		mapImage = new Texture(Gdx.files.internal("data/background1.png"));
@@ -37,13 +37,13 @@ public class WorldRenderer {
 
 	      Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 	      Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-	      cam.position.x=world.hero.position.x;
+	      cam.position.x+=(world.hero.position.x-240-cam.position.x)/4;
 	      cam.update();
 	      batch.setProjectionMatrix(cam.combined);
 
 	      batch.begin();
-	      batch.draw(backgroundImage, -240,-192);
-	      batch.draw(mapImage, -240,-192);
+	      //batch.draw(backgroundImage, -240,-192);
+	      //batch.draw(mapImage, -240,-192);
 	      for(Block bl: world.blocks){
 	    	  batch.draw(blockImage, bl.position.x-240, bl.position.y);
 	      }
