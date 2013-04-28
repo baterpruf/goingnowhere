@@ -5,12 +5,12 @@ import com.badlogic.gdx.Input.Keys;
 import com.goingnowhere.utils.CollisionTest;
 
 public class Hero extends DynamicGameObject {
-	public static final float HERO_WIDTH = 20f;
-	public static final float HERO_HEIGHT = 20f;
+	public static final float HERO_WIDTH = 32f;
+	public static final float HERO_HEIGHT = 32f;
 	public static final float HERO_ACCELERATION = 18f;	
 	public static final float HERO_JUMP_SPEED = 9f;
 	public static final float HERO_MAX_SPEED=12f;
-	public static final float DAMP=0.9f;
+	public static final float DAMP=0.2f;
 	
 	static final int IDLE = 0;
 	static final int RUN = 1;
@@ -33,9 +33,8 @@ public class Hero extends DynamicGameObject {
 	
 	public void update(float deltaTime){
 		processInput();
-		accel.x = HERO_ACCELERATION * direction;
 		if(Math.abs(vel.x)<Math.abs(HERO_MAX_SPEED)){
-			vel.x+=accel.x*deltaTime;
+			vel.x+=accel.x*deltaTime*direction;
 		}
 		vel.y+= World.gravity.y * deltaTime;
 		//Gdx.app.log("v",""+vel.y );
@@ -49,26 +48,28 @@ public class Hero extends DynamicGameObject {
 		if (state == DEAD || state == DYING) return;
 		//Los controles podrían ser la mitad inferior izquierda/derecha disparando simultaneamente
 		//y mitad superior donde sea para saltar.
-		//Admito hasta dos toques simultáneos, saltar y disparar.
 		boolean touchInput=true;
 		boolean jump=false;
-		
-		if(touchInput && Gdx.input.justTouched()){
+
+		if(touchInput){
 			float x0 = (Gdx.input.getX(0) / (float)Gdx.graphics.getWidth());
 			float y0 = (Gdx.input.getY(0) / (float)Gdx.graphics.getHeight());
-			Gdx.app.log("",""+x0);
-			if(y0<0.5 ){
-				jump=true;
-			}else if(x0<0.5){
-				direction=-1;
-				vel.x=vel.x/3;
-				shoot();
-			}else{
-				direction=1;
-				vel.x=vel.x/3;
-				shoot();
+			if(Gdx.input.justTouched() && y0<0.5 ){
+					jump=true;
 			}
-			
+			if(Gdx.input.isTouched() ){
+				if (y0>0.5){
+					accel.x=HERO_ACCELERATION;
+					shoot();
+					if(x0<0.5){
+						direction=-1;
+					}else{
+						direction=1;
+					}
+				}
+			}else{
+				accel.x=0;
+			}
 		}
 		if(!touchInput){
 			if((Gdx.input.isKeyPressed(Keys.W))){
@@ -80,7 +81,7 @@ public class Hero extends DynamicGameObject {
 					vel.x=vel.x/3;
 				}
 				shoot();
-				
+
 			}
 			if(Gdx.input.isKeyPressed(Keys.D)){
 				if(direction!=1){
@@ -90,8 +91,9 @@ public class Hero extends DynamicGameObject {
 				shoot();
 			}
 		}
+
 		if(jump && canJump)jump();
-		
+
 	}
 	private void tryMove(float dx,float dy){
 		//TODO hacer una lista de bloques candidatos a colisión para no tener que mirar todos y mejorar rendimiento
