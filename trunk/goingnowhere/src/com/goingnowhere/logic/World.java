@@ -10,8 +10,8 @@ import com.goingnowhere.utils.CollisionTest;
 
 public class World {
 
-	public static final float WORLD_WIDTH = 10;
-	public static final float WORLD_HEIGHT = 15 * 20;
+	public static final float WORLD_WIDTH = 480;
+	public static final float WORLD_HEIGHT = 320;
 	public static final int WORLD_STATE_PAUSE = 0;
 	public static final int WORLD_STATE_PLAY = 1;
 	
@@ -78,7 +78,7 @@ public class World {
 		updateHero(deltaTime);
 		updateEnemies(deltaTime);
 		updateCoins(deltaTime);
-		checkCollisions();
+		//checkCollisions();
 		checkGameOver();
 	}
 

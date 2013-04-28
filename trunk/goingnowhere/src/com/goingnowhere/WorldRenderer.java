@@ -24,7 +24,8 @@ public class WorldRenderer {
 	public WorldRenderer (World world) {
 		this.world = world;
 		this.cam = new OrthographicCamera(480, 320);
-		this.cam.position.set(1900, 160, 0);
+		this.cam.position.set(-100, 160, 0);
+		this.cam.zoom=0.8f;
 		heroImage = new Texture(Gdx.files.internal("data/hero.png"));
 		blockImage = new Texture(Gdx.files.internal("data/block.png"));
 		mapImage = new Texture(Gdx.files.internal("data/background1.png"));
@@ -39,7 +40,8 @@ public class WorldRenderer {
 
 	      Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 	      Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-	      cam.position.x+=(world.hero.position.x-240-cam.position.x)/20;
+	      cam.position.x+=(world.hero.position.x-cam.position.x)/10;
+	      cam.position.y+=(world.hero.position.y-cam.position.y+15)/10;
 	      cam.update();
 	      batch.setProjectionMatrix(cam.combined);
 
@@ -47,10 +49,9 @@ public class WorldRenderer {
 	      //batch.draw(backgroundImage, -240,-192);
 	      //batch.draw(mapImage, -240,-192);
 	      for(Block bl: world.blocks){
-	    	  batch.draw(blockImage, bl.position.x-240, bl.position.y);
+	    	  batch.draw(blockImage, bl.position.x, bl.position.y);
 	      }
-	      batch.draw(heroImage, world.hero.position.x-240, world.hero.position.y);
-	      batch.draw(blockImage, world.hero.position.x-240, world.hero.position.y);
+	      batch.draw(heroImage, world.hero.position.x, world.hero.position.y);
 	      //font.draw(batch, "h"+(int)world.hero.position.y+" b"+(int)world.hero.bounds.y, 200,300);
 	      batch.end();
 	}
