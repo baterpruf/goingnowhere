@@ -60,7 +60,7 @@ public class WorldRenderer {
 	      batch.draw(heroImage, world.hero.position.x, world.hero.position.y);
 	      //font.draw(batch, "h: "+world.hero.debugMessage, cam.position.x,cam.position.y-100);
 	      batch.draw(leftImage, cam.position.x-180,cam.position.y-120);
-	      batch.draw(rightImage, cam.position.x-60,cam.position.y-120);
+	      batch.draw(rightImage, cam.position.x-90,cam.position.y-120);
 	      batch.draw(jumpImage, cam.position.x+120,cam.position.y-120);
 	      batch.end();
 	}
