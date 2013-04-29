@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.goingnowhere.logic.Block;
@@ -32,6 +33,7 @@ public class WorldRenderer {
 		this.cam.position.set(-100, 160, 0);
 		this.cam.zoom=0.8f;
 		heroImage = new Texture(Gdx.files.internal("data/hero.png"));
+		Sprite heroLeft=new Sprite(heroImage);
 		blockImage = new Texture(Gdx.files.internal("data/block.png"));
 		coinImage = new Texture(Gdx.files.internal("data/coin.png"));
 		mapImage = new Texture(Gdx.files.internal("data/background1.png"));
@@ -63,6 +65,7 @@ public class WorldRenderer {
 	      for(Coin cn: world.coins){
 	    	  batch.draw(coinImage, cn.position.x, cn.position.y);
 	      }
+	      
 	      batch.draw(heroImage, world.hero.position.x, world.hero.position.y);
 	      //font.draw(batch, "h: "+world.hero.debugMessage, cam.position.x,cam.position.y-100);
 	      batch.draw(leftImage, cam.position.x-180,cam.position.y-120);
