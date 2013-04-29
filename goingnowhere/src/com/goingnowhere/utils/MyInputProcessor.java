@@ -1,6 +1,7 @@
 package com.goingnowhere.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.goingnowhere.logic.World;
 
@@ -17,11 +18,29 @@ public class MyInputProcessor implements InputProcessor {
 	
 	@Override
 	public boolean keyDown (int keycode) {
+		if(keycode==Keys.A){
+			world.hero.goLeft();
+		}
+		if(keycode==Keys.D){
+			world.hero.goRight();
+		}
+		if(keycode==Keys.W){
+			world.hero.jump();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean keyUp (int keycode) {
+		if(keycode==Keys.A){
+			world.hero.stop();
+		}
+		if(keycode==Keys.D){
+			world.hero.stop();
+		}
+		if(keycode==Keys.W){
+
+		}
 		return false;
 	}
 

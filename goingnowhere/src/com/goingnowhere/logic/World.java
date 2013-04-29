@@ -23,7 +23,7 @@ public class World {
 	static int COIN = 0x00ff00;
 
 
-	public static final Vector2 gravity = new Vector2(0, -12f);
+	public static final Vector2 gravity = new Vector2(0, -19f);
 
 	public Hero hero;
 	public List<Enemy> enemies;
