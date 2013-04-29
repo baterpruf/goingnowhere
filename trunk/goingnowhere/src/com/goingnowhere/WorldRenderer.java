@@ -52,7 +52,7 @@ public class WorldRenderer {
 	    	  batch.draw(blockImage, bl.position.x, bl.position.y);
 	      }
 	      batch.draw(heroImage, world.hero.position.x, world.hero.position.y);
-	      //font.draw(batch, "h"+(int)world.hero.position.y+" b"+(int)world.hero.bounds.y, 200,300);
+	      font.draw(batch, "h: "+world.hero.debugMessage, cam.position.x,cam.position.y-100);
 	      batch.end();
 	}
 }

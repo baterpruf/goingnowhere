@@ -7,10 +7,10 @@ import com.goingnowhere.utils.CollisionTest;
 public class Hero extends DynamicGameObject {
 	public static final float HERO_WIDTH = 32f;
 	public static final float HERO_HEIGHT = 32f;
-	public static final float HERO_ACCELERATION = 18f;	
+	public static final float HERO_ACCELERATION = 25f;	
 	public static final float HERO_JUMP_SPEED = 9f;
 	public static final float HERO_MAX_SPEED=12f;
-	public static final float DAMP=0.2f;
+	public static final float DAMP=0.05f;
 	
 	static final int IDLE = 0;
 	static final int RUN = 1;
@@ -23,6 +23,7 @@ public class Hero extends DynamicGameObject {
 	int direction;
 	boolean canJump=false;
 	World world;
+	public String debugMessage;
 	
 	
 	public Hero (World world, float x, float y) {
@@ -33,6 +34,7 @@ public class Hero extends DynamicGameObject {
 	
 	public void update(float deltaTime){
 		processInput();
+		vel.x=(Math.abs(vel.x)-0.2f)*Math.signum(vel.x);
 		if(Math.abs(vel.x)<Math.abs(HERO_MAX_SPEED)){
 			vel.x+=accel.x*deltaTime*direction;
 		}
@@ -54,8 +56,10 @@ public class Hero extends DynamicGameObject {
 		if(touchInput){
 			float x0 = (Gdx.input.getX(0) / (float)Gdx.graphics.getWidth());
 			float y0 = (Gdx.input.getY(0) / (float)Gdx.graphics.getHeight());
-			if(Gdx.input.justTouched() && y0<0.5 ){
+			float y1 = (Gdx.input.getY(1) / (float)Gdx.graphics.getHeight());
+			if((Gdx.input.isTouched(1) || Gdx.input.justTouched()) && y1<0.5 ){
 					jump=true;
+					debugMessage="Entrando!";
 			}
 			if(Gdx.input.isTouched() ){
 				if (y0>0.5){
