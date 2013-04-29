@@ -19,6 +19,9 @@ public class WorldRenderer {
 	Texture blockImage;
 	Texture mapImage;
 	Texture backgroundImage;
+	Texture leftImage;
+	Texture rightImage;
+	Texture jumpImage;
 	BitmapFont font;
 	
 	public WorldRenderer (World world) {
@@ -30,7 +33,10 @@ public class WorldRenderer {
 		blockImage = new Texture(Gdx.files.internal("data/block.png"));
 		mapImage = new Texture(Gdx.files.internal("data/background1.png"));
 		backgroundImage = new Texture(Gdx.files.internal("data/background_buildings.png"));
-	    font = new BitmapFont();
+		leftImage = new Texture(Gdx.files.internal("data/left.png"));
+		rightImage = new Texture(Gdx.files.internal("data/right.png"));
+		jumpImage = new Texture(Gdx.files.internal("data/jump.png"));
+		font = new BitmapFont();
 	    font.setColor(1024,0,0,128);
 	    batch = new SpriteBatch();
 
@@ -52,7 +58,10 @@ public class WorldRenderer {
 	    	  batch.draw(blockImage, bl.position.x, bl.position.y);
 	      }
 	      batch.draw(heroImage, world.hero.position.x, world.hero.position.y);
-	      font.draw(batch, "h: "+world.hero.debugMessage, cam.position.x,cam.position.y-100);
+	      //font.draw(batch, "h: "+world.hero.debugMessage, cam.position.x,cam.position.y-100);
+	      batch.draw(leftImage, cam.position.x-180,cam.position.y-120);
+	      batch.draw(rightImage, cam.position.x-60,cam.position.y-120);
+	      batch.draw(jumpImage, cam.position.x+120,cam.position.y-120);
 	      batch.end();
 	}
 }
