@@ -33,72 +33,14 @@ public class Hero extends DynamicGameObject {
 	}
 	
 	public void update(float deltaTime){
-		processInput();
 		vel.x=(Math.abs(vel.x)-0.2f)*Math.signum(vel.x);
 		if(Math.abs(vel.x)<Math.abs(HERO_MAX_SPEED)){
 			vel.x+=accel.x*deltaTime*direction;
 		}
 		vel.y+= World.gravity.y * deltaTime;
-		//Gdx.app.log("v",""+vel.y );
 		tryMove(vel.x*deltaTime*20,vel.y*deltaTime*20);
-		//position.add(vel);
-		//bounds.x+=vel.x;
-		//bounds.y+=vel.y;
 	}
 	
-	private void processInput(){
-		if (state == DEAD || state == DYING) return;
-		//Los controles podrían ser la mitad inferior izquierda/derecha disparando simultaneamente
-		//y mitad superior donde sea para saltar.
-		boolean touchInput=true;
-		boolean jump=false;
-
-		if(touchInput){
-			float x0 = (Gdx.input.getX(0) / (float)Gdx.graphics.getWidth());
-			float y0 = (Gdx.input.getY(0) / (float)Gdx.graphics.getHeight());
-			float y1 = (Gdx.input.getY(1) / (float)Gdx.graphics.getHeight());
-			if((Gdx.input.isTouched(1) || Gdx.input.justTouched()) && y1<0.5 ){
-					jump=true;
-					debugMessage="Entrando!";
-			}
-			if(Gdx.input.isTouched() ){
-				if (y0>0.5){
-					accel.x=HERO_ACCELERATION;
-					shoot();
-					if(x0<0.5){
-						direction=-1;
-					}else{
-						direction=1;
-					}
-				}
-			}else{
-				accel.x=0;
-			}
-		}
-		if(!touchInput){
-			if((Gdx.input.isKeyPressed(Keys.W))){
-				jump=true;
-			}
-			if(Gdx.input.isKeyPressed(Keys.A)){
-				if(direction!=-1){
-					direction=-1;
-					vel.x=vel.x/3;
-				}
-				shoot();
-
-			}
-			if(Gdx.input.isKeyPressed(Keys.D)){
-				if(direction!=1){
-					direction=1;
-					vel.x=vel.x/3;
-				}
-				shoot();
-			}
-		}
-
-		if(jump && canJump)jump();
-
-	}
 	private void tryMove(float dx,float dy){
 		//TODO hacer una lista de bloques candidatos a colisión para no tener que mirar todos y mejorar rendimiento
 		//TODO si se va a mantener la cuadrícula de bloques del map se podría simplificar mucho todo teniendo en cuenta que 
@@ -134,15 +76,23 @@ public class Hero extends DynamicGameObject {
 		position.x = bounds.x + bounds.width / 2;
 		position.y = bounds.y + bounds.height / 2;
 	}
-	public void run(int direction){
-		this.direction=direction;
-		state=RUN;
-		accel.x = HERO_ACCELERATION * direction;
+	public void goRight(){
+		accel.x=HERO_ACCELERATION;
+		direction=1;
 	}
-	
+	public void goLeft(){
+		accel.x=HERO_ACCELERATION;
+		direction=-1;
+	}
+	public void stop(){
+		accel.x=0;
+	}
+
 	public void jump(){
-		vel.y = HERO_JUMP_SPEED;
-		canJump=false;
+		if(canJump){
+			vel.y = HERO_JUMP_SPEED;
+			canJump=false;
+		}
 	}
 	
 	public void shoot(){

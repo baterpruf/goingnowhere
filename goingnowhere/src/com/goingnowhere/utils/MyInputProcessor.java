@@ -1,5 +1,6 @@
 package com.goingnowhere.utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.goingnowhere.logic.World;
 
@@ -31,10 +32,11 @@ public class MyInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean touchDown (int x, int y, int pointer, int button) {
-		if(x<0.25){
+		float width=(float)Gdx.graphics.getWidth();
+		if(x<0.25*width){
 			world.hero.goLeft();
 			leftPointer=pointer;
-		}else if(x<0.5){
+		}else if(x<0.5*width){
 			world.hero.goRight();
 			rightPointer=pointer;
 		}else{

@@ -6,10 +6,12 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL10;
 import com.goingnowhere.WorldRenderer;
 import com.goingnowhere.logic.World;
+import com.goingnowhere.utils.MyInputProcessor;
 
 public class GameScreen extends BaseScreen {
 	World world;
 	WorldRenderer renderer;
+	MyInputProcessor inputProcessor;
 
 	public GameScreen (Game game) {
 		super(game);
@@ -19,6 +21,8 @@ public class GameScreen extends BaseScreen {
 	public void show () {
 		world = new World(1);
 		renderer = new WorldRenderer(world);
+		inputProcessor = new MyInputProcessor(world);
+		Gdx.input.setInputProcessor(inputProcessor);
 	}
 
 	@Override
