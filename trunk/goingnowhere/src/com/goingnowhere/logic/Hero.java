@@ -39,6 +39,13 @@ public class Hero extends DynamicGameObject {
 		}
 		vel.y+= World.gravity.y * deltaTime;
 		tryMove(vel.x*deltaTime*20,vel.y*deltaTime*20);
+		int len = world.coins.size();
+		for (int i = 0; i < len; i++) {
+			Coin coin = world.coins.get(i);
+			if (CollisionTest.collision(coin.bounds, bounds)) {
+				//ganar puntos, eliminar moneda
+			}
+		}
 	}
 	
 	private void tryMove(float dx,float dy){
