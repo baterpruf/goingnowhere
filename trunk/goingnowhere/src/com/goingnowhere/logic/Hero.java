@@ -1,5 +1,6 @@
 package com.goingnowhere.logic;
 
+import com.badlogic.gdx.Gdx;
 import com.goingnowhere.utils.CollisionTest;
 
 public class Hero extends DynamicGameObject {
@@ -19,6 +20,7 @@ public class Hero extends DynamicGameObject {
 	
 	int state;
 	int direction;
+	int coins;
 	boolean canJump=false;
 	World world;
 	public String debugMessage;
@@ -41,7 +43,11 @@ public class Hero extends DynamicGameObject {
 		for (int i = 0; i < len; i++) {
 			Coin coin = world.coins.get(i);
 			if (CollisionTest.collision(coin.bounds, bounds)) {
+				world.coins.remove(coin);
 				//ganar puntos, eliminar moneda
+				Gdx.app.log("", ""+i);
+				coins++;
+				break;
 			}
 		}
 	}
@@ -102,5 +108,8 @@ public class Hero extends DynamicGameObject {
 	
 	public void shoot(){
 		
+	}
+	public int getCoins(){
+		return coins;
 	}
 }
