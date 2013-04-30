@@ -1,15 +1,13 @@
 package com.goingnowhere.logic;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.goingnowhere.utils.CollisionTest;
 
 public class Hero extends DynamicGameObject {
 	public static final float HERO_WIDTH = 32f;
 	public static final float HERO_HEIGHT = 32f;
-	public static final float HERO_ACCELERATION = 25f;	
+	public static final float HERO_ACCELERATION = 35f;	
 	public static final float HERO_JUMP_SPEED = 9f;
-	public static final float HERO_MAX_SPEED=12f;
+	public static final float HERO_MAX_SPEED=6f;
 	public static final float DAMP=0.05f;
 	
 	static final int IDLE = 0;
@@ -33,7 +31,7 @@ public class Hero extends DynamicGameObject {
 	}
 	
 	public void update(float deltaTime){
-		vel.x=(Math.abs(vel.x)-0.2f)*Math.signum(vel.x);
+		vel.x=(Math.abs(vel.x)-0.3f)*Math.signum(vel.x);
 		if(Math.abs(vel.x)<Math.abs(HERO_MAX_SPEED)){
 			vel.x+=accel.x*deltaTime*direction;
 		}
