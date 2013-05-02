@@ -36,7 +36,7 @@ public class WorldRenderer {
 		this.world = world;
 		this.cam = new OrthographicCamera(480, 320);
 		this.cam.position.set(-100, 160, 0);
-		this.cam.zoom=0.8f;
+		//this.cam.zoom=0.8f;
 		controls= new Texture(Gdx.files.internal("data/controls.png"));
 		heroImage = new Texture(Gdx.files.internal("data/hero.png"));
 		heroImageleft = new Texture(Gdx.files.internal("data/heroleft.png"));
