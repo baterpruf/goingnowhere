@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Vector2;
 import com.goingnowhere.utils.CollisionTest;
+import com.goingnowhere.utils.VectorGravity;
 
 public class World {
 
@@ -22,8 +23,10 @@ public class World {
 	static int ENEMY = 0x0000ff;
 	static int COIN = 0x00ff00;
 
-
-	public static final Vector2 gravity = new Vector2(0, -19f);
+	
+	public static final float gravityG=19f;
+	public int gravityAngle=90;
+	public VectorGravity gravity = new VectorGravity(gravityAngle);
 
 	public Hero hero;
 	public List<Enemy> enemies;

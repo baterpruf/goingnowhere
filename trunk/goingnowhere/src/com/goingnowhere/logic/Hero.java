@@ -20,6 +20,7 @@ public class Hero extends DynamicGameObject {
 	
 	int state;
 	int direction;
+	int angle;
 	int coins;
 	boolean canJump=false;
 	World world;
@@ -33,11 +34,12 @@ public class Hero extends DynamicGameObject {
 	}
 	
 	public void update(float deltaTime){
-		vel.x=(Math.abs(vel.x)-0.3f)*Math.signum(vel.x);
+		if(!canJump)vel.x=(Math.abs(vel.x)-0.3f)*Math.signum(vel.x);
 		if(Math.abs(vel.x)<Math.abs(HERO_MAX_SPEED)){
 			vel.x+=accel.x*deltaTime*direction;
 		}
-		vel.y+= World.gravity.y * deltaTime;
+		vel.y+= world.gravity.y * deltaTime;
+		vel.x+= world.gravity.x * deltaTime;
 		tryMove(vel.x*deltaTime*20,vel.y*deltaTime*20);
 		int len = world.coins.size();
 		for (int i = 0; i < len; i++) {
