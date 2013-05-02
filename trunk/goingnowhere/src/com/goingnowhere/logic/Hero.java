@@ -20,7 +20,9 @@ public class Hero extends DynamicGameObject {
 	
 	int state;
 	int direction;
-	int angle;
+	public boolean flipped=false;
+	public boolean needRotation=false;
+	float angle;
 	int coins;
 	boolean canJump=false;
 	World world;
@@ -34,9 +36,14 @@ public class Hero extends DynamicGameObject {
 	}
 	
 	public void update(float deltaTime){
-		if(!canJump)vel.x=(Math.abs(vel.x)-0.3f)*Math.signum(vel.x);
-		if(Math.abs(vel.x)<Math.abs(HERO_MAX_SPEED)){
+		this.angle=world.gravity.getAngle()+1.56f;
+		if(!canJump){
+			vel.x=(Math.abs(vel.x)-0.3f)*Math.signum(vel.x);
+			vel.y=(Math.abs(vel.y)-0.3f)*Math.signum(vel.y);
+		}
+		if((vel.x*vel.x+vel.y*vel.y)<=HERO_MAX_SPEED*HERO_MAX_SPEED){
 			vel.x+=accel.x*deltaTime*direction;
+			vel.y+=accel.y*deltaTime*direction;
 		}
 		vel.y+= world.gravity.y * deltaTime;
 		vel.x+= world.gravity.x * deltaTime;
@@ -66,6 +73,7 @@ public class Hero extends DynamicGameObject {
 			while (CollisionTest.collision(block.bounds, bounds)) {
 				bounds.x-=dx/2;
 				contact=true;
+				canJump=true;
 			}
 		}
 		if(contact){
@@ -79,7 +87,7 @@ public class Hero extends DynamicGameObject {
 			while (CollisionTest.collision(block.bounds, bounds)) {
 				bounds.y-=dy/2;
 				contact=true;
-				if(dy<0)canJump=true;
+				canJump=true;
 			}
 		}
 		if(contact){
@@ -90,21 +98,27 @@ public class Hero extends DynamicGameObject {
 		position.y = bounds.y + bounds.height / 2;
 	}
 	public void goRight(){
-		accel.x=HERO_ACCELERATION;
+		accel.x=(float) (HERO_ACCELERATION*Math.cos(angle));
+		accel.y=(float) (HERO_ACCELERATION*Math.sin(angle));
 		direction=1;
 	}
 	public void goLeft(){
-		accel.x=HERO_ACCELERATION;
+		accel.x=(float) (HERO_ACCELERATION*Math.cos(angle));
+		accel.y=(float) (HERO_ACCELERATION*Math.sin(angle));
 		direction=-1;
 	}
 	public void stop(){
 		accel.x=0;
+		accel.y=0;
 	}
 
 	public void jump(){
 		if(canJump){
-			vel.y = HERO_JUMP_SPEED;
+			float jumpAngle=angle+1.56f;
+			vel.x+=(float) (HERO_JUMP_SPEED*Math.cos(jumpAngle));
+			vel.y+=(float) (HERO_JUMP_SPEED*Math.sin(jumpAngle));
 			canJump=false;
+			Gdx.app.log("e","3");
 		}
 	}
 	

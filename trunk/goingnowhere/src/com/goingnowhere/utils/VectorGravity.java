@@ -11,14 +11,23 @@ public class VectorGravity extends Vector2 {
 	private static final long serialVersionUID = 1L;
 	private float angle;
 	
-	public VectorGravity(double d){
-		super((float) (World.gravityG*Math.cos(d)),(float) (World.gravityG*Math.sin(d)));
-		this.angle=(float)d;
+	public VectorGravity(float angle){
+		super((float) (World.gravityG*Math.cos(angle)),(float) (World.gravityG*Math.sin(angle)));
+		this.angle=angle;
 	}
 	
-	public void setAngle(int angle){
-		this.x=(float) (World.gravityG*Math.cos((double)angle));
-		this.y=(float) (World.gravityG*Math.sin((double)angle));
+	public void setAngle(float angle){
+		this.x=(float) (World.gravityG*Math.cos(angle));
+		this.y=(float) (World.gravityG*Math.sin(angle));
+	}
+	public float getAngle(){
+		return this.angle;
+	}
+	public void advance(float alpha){
+		angle+=alpha;
+		if(angle>6.24){
+			angle=0;
+		}
 	}
 
 }

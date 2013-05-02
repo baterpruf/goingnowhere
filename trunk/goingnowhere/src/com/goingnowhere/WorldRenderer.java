@@ -18,6 +18,7 @@ public class WorldRenderer {
 	SpriteCache cache;
 	SpriteBatch batch;
 	Texture heroImage;
+	Sprite heroSprite;
 	Texture heroImageleft;
 	Texture blockImage;
 	Texture coinImage;
@@ -39,6 +40,7 @@ public class WorldRenderer {
 		//this.cam.zoom=0.8f;
 		controls= new Texture(Gdx.files.internal("data/controls.png"));
 		heroImage = new Texture(Gdx.files.internal("data/hero.png"));
+		heroSprite = new Sprite(heroImage);
 		heroImageleft = new Texture(Gdx.files.internal("data/heroleft.png"));
 		blockImage = new Texture(Gdx.files.internal("data/block.png"));
 		coinImage = new Texture(Gdx.files.internal("data/coin.png"));
@@ -72,11 +74,22 @@ public class WorldRenderer {
 	      for(Coin cn: world.coins){
 	    	  batch.draw(coinImage, cn.position.x, cn.position.y);
 	      }
-	      if(world.hero.getDirection()==-1){
-	    	  batch.draw(heroImageleft, world.hero.position.x, world.hero.position.y);
-	      }else{
-	    	  batch.draw(heroImage, world.hero.position.x, world.hero.position.y);
+	      if(world.hero.getDirection()==-1 && !world.hero.flipped){
+	    	  heroSprite.flip(true,false);
+	    	  world.hero.flipped=true;
 	      }
+	      if(world.hero.getDirection()==1 && world.hero.flipped){
+	    	  heroSprite.flip(true,false);
+	    	  world.hero.flipped=false;
+	      }
+	      if(world.hero.needRotation){
+	    	  world.hero.needRotation=false;
+	    	  heroSprite.setRotation(world.gravity.getAngle()*180/3.1416f);
+	      }
+	      //batch.draw(heroSprite, world.hero.position.x, world.hero.position.y);
+	      heroSprite.setX(world.hero.position.x);
+	      heroSprite.setY(world.hero.position.y);
+	      heroSprite.draw(batch);
 	      //font.draw(batch, "h: "+world.hero.debugMessage, cam.position.x,cam.position.y-100);
 	      font.draw(batch, "Score: "+world.hero.getCoins(), cam.position.x,cam.position.y-100);
 	      batch.draw(controlLeft, cam.position.x-180,cam.position.y-120);
