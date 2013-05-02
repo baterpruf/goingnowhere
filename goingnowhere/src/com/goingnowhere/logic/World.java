@@ -25,8 +25,7 @@ public class World {
 
 	
 	public static final float gravityG=19f;
-	public int gravityAngle=-90;
-	public VectorGravity gravity = new VectorGravity(gravityAngle*3.1416/180);
+	public VectorGravity gravity = new VectorGravity(0);
 
 	public Hero hero;
 	public List<Enemy> enemies;
@@ -37,6 +36,7 @@ public class World {
 	public int level;
 	public int score;
 	public int state;
+	float totalTime=0;
 
 	public World(int level) {
 		this.level=level;
@@ -84,6 +84,13 @@ public class World {
 		updateCoins(deltaTime);
 		//checkCollisions();
 		checkGameOver();
+		totalTime+=deltaTime;
+		if(totalTime>2){
+			totalTime=0;
+			gravity.advance(1.56f);
+			hero.needRotation=true;
+			Gdx.app.log("e", ""+gravity.getAngle());
+		}
 	}
 
 	private void updateHero (float deltaTime) {
