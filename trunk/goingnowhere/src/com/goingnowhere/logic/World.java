@@ -25,8 +25,8 @@ public class World {
 
 	
 	public static final float gravityG=19f;
-	public int gravityAngle=90;
-	public VectorGravity gravity = new VectorGravity(gravityAngle);
+	public int gravityAngle=-90;
+	public VectorGravity gravity = new VectorGravity(gravityAngle*3.1416/180);
 
 	public Hero hero;
 	public List<Enemy> enemies;
@@ -46,6 +46,7 @@ public class World {
 		generateLevel();
 		this.state=WORLD_STATE_PLAY;
 		this.score = 0;
+		Gdx.app.log("g", ""+gravity.x+"-"+gravity.y);
 	}
 
 	private void generateLevel () {
