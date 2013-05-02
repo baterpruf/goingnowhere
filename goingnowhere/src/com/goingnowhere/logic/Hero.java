@@ -112,4 +112,7 @@ public class Hero extends DynamicGameObject {
 	public int getCoins(){
 		return coins;
 	}
+	public int getDirection(){
+		return direction;
+	}
 }
