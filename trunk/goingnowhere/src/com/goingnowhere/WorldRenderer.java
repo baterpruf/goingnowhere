@@ -26,6 +26,10 @@ public class WorldRenderer {
 	Texture leftImage;
 	Texture rightImage;
 	Texture jumpImage;
+	Texture controls;
+	Sprite controlLeft;
+	Sprite controlRight;
+	Sprite controlUp;
 	BitmapFont font;
 	
 	public WorldRenderer (World world) {
@@ -33,19 +37,21 @@ public class WorldRenderer {
 		this.cam = new OrthographicCamera(480, 320);
 		this.cam.position.set(-100, 160, 0);
 		this.cam.zoom=0.8f;
+		controls= new Texture(Gdx.files.internal("data/controls.png"));
 		heroImage = new Texture(Gdx.files.internal("data/hero.png"));
 		heroImageleft = new Texture(Gdx.files.internal("data/heroleft.png"));
 		blockImage = new Texture(Gdx.files.internal("data/block.png"));
 		coinImage = new Texture(Gdx.files.internal("data/coin.png"));
 		mapImage = new Texture(Gdx.files.internal("data/background1.png"));
 		backgroundImage = new Texture(Gdx.files.internal("data/background_buildings.png"));
-		leftImage = new Texture(Gdx.files.internal("data/left.png"));
-		rightImage = new Texture(Gdx.files.internal("data/right.png"));
-		jumpImage = new Texture(Gdx.files.internal("data/jump.png"));
+		controls= new Texture(Gdx.files.internal("data/controls.png"));
+		controlLeft= new Sprite(controls,0,0,64,64);
+		controlRight= new Sprite(controls,64,0,64,64);
+		controlUp= new Sprite(controls,0,64,64,64);
+		
 		font = new BitmapFont();
 	    font.setColor(1024,0,0,128);
 	    batch = new SpriteBatch();
-
 
 	}
 	public void render(float delta){
@@ -73,9 +79,9 @@ public class WorldRenderer {
 	      }
 	      //font.draw(batch, "h: "+world.hero.debugMessage, cam.position.x,cam.position.y-100);
 	      font.draw(batch, "Score: "+world.hero.getCoins(), cam.position.x,cam.position.y-100);
-	      batch.draw(leftImage, cam.position.x-180,cam.position.y-120);
-	      batch.draw(rightImage, cam.position.x-90,cam.position.y-120);
-	      batch.draw(jumpImage, cam.position.x+120,cam.position.y-120);
+	      batch.draw(controlLeft, cam.position.x-180,cam.position.y-120);
+	      batch.draw(controlRight, cam.position.x-90,cam.position.y-120);
+	      batch.draw(controlUp, cam.position.x+120,cam.position.y-120);
 	      batch.end();
 	}
 }
