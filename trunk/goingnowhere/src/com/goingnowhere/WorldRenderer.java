@@ -60,8 +60,7 @@ public class WorldRenderer {
 
 	      Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 	      Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-	      cam.position.x+=(world.hero.position.x-cam.position.x)/10;
-	      cam.position.y+=(world.hero.position.y-cam.position.y+15)/10;
+	      cam.position.add((world.hero.position.x-cam.position.x)/10,(world.hero.position.y-cam.position.y+15)/10, 0);
 	      cam.update();
 	      batch.setProjectionMatrix(cam.combined);
 
@@ -84,7 +83,7 @@ public class WorldRenderer {
 	      }
 	      if(world.hero.needRotation){
 	    	  world.hero.needRotation=false;
-	    	  heroSprite.setRotation(world.gravity.getAngle()*180/3.1416f);
+	    	  heroSprite.setRotation(world.gravity.getAngle()*180/(World.PI));
 	      }
 	      //batch.draw(heroSprite, world.hero.position.x, world.hero.position.y);
 	      heroSprite.setX(world.hero.position.x);

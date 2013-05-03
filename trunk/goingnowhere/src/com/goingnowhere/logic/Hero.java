@@ -1,6 +1,7 @@
 package com.goingnowhere.logic;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Matrix3;
 import com.goingnowhere.utils.CollisionTest;
 
 public class Hero extends DynamicGameObject {
@@ -23,6 +24,7 @@ public class Hero extends DynamicGameObject {
 	public boolean flipped=false;
 	public boolean needRotation=false;
 	float angle;
+	Matrix3 rotMatrix=new Matrix3();
 	int coins;
 	boolean canJump=false;
 	World world;
@@ -33,20 +35,21 @@ public class Hero extends DynamicGameObject {
 		super(x, y, HERO_WIDTH, HERO_HEIGHT);
 		this.world=world;
 		state = IDLE;
+		rotMatrix.idt();
 	}
-	
+	public void updateRotation(float angle){
+		needRotation=true;
+		rotMatrix.setToRotation(angle*180/World.PI);
+		this.angle=angle+World.PI/2;
+	}
 	public void update(float deltaTime){
-		this.angle=world.gravity.getAngle()+1.56f;
 		if(!canJump){
-			vel.x=(Math.abs(vel.x)-0.3f)*Math.signum(vel.x);
-			vel.y=(Math.abs(vel.y)-0.3f)*Math.signum(vel.y);
+			vel.set((Math.abs(vel.x)-0.3f)*Math.signum(vel.x),(Math.abs(vel.y)-0.3f)*Math.signum(vel.y));
 		}
-		if((vel.x*vel.x+vel.y*vel.y)<=HERO_MAX_SPEED*HERO_MAX_SPEED){
-			vel.x+=accel.x*deltaTime*direction;
-			vel.y+=accel.y*deltaTime*direction;
+		if((vel.len())<=HERO_MAX_SPEED){
+			vel.add(accel.x*deltaTime*direction,accel.y*deltaTime*direction);
 		}
-		vel.y+= world.gravity.y * deltaTime;
-		vel.x+= world.gravity.x * deltaTime;
+		vel.add( world.gravity.y * deltaTime, world.gravity.x * deltaTime);
 		tryMove(vel.x*deltaTime*20,vel.y*deltaTime*20);
 		int len = world.coins.size();
 		for (int i = 0; i < len; i++) {
@@ -94,29 +97,24 @@ public class Hero extends DynamicGameObject {
 			vel.y=0;
 			dy=0;
 		}
-		position.x = bounds.x + bounds.width / 2;
-		position.y = bounds.y + bounds.height / 2;
+		position.set(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
 	}
 	public void goRight(){
-		accel.x=(float) (HERO_ACCELERATION*Math.cos(angle));
-		accel.y=(float) (HERO_ACCELERATION*Math.sin(angle));
+		accel.set((float) (HERO_ACCELERATION*Math.cos(angle)),(float) (HERO_ACCELERATION*Math.sin(angle)));
 		direction=1;
 	}
 	public void goLeft(){
-		accel.x=(float) (HERO_ACCELERATION*Math.cos(angle));
-		accel.y=(float) (HERO_ACCELERATION*Math.sin(angle));
+		accel.set((float) (HERO_ACCELERATION*Math.cos(angle)),(float) (HERO_ACCELERATION*Math.sin(angle)));
 		direction=-1;
 	}
 	public void stop(){
-		accel.x=0;
-		accel.y=0;
+		accel.set(0,0);
 	}
 
 	public void jump(){
 		if(canJump){
-			float jumpAngle=angle+1.56f;
-			vel.x+=(float) (HERO_JUMP_SPEED*Math.cos(jumpAngle));
-			vel.y+=(float) (HERO_JUMP_SPEED*Math.sin(jumpAngle));
+			float jumpAngle=angle+World.PI/2;
+			vel.add((float) (HERO_JUMP_SPEED*Math.cos(jumpAngle)),(float) (HERO_JUMP_SPEED*Math.sin(jumpAngle)));
 			canJump=false;
 			Gdx.app.log("e","3");
 		}
