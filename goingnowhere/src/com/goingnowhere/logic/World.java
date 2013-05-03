@@ -15,6 +15,7 @@ public class World {
 	public static final float WORLD_HEIGHT = 320;
 	public static final int WORLD_STATE_PAUSE = 0;
 	public static final int WORLD_STATE_PLAY = 1;
+	public static final float PI = 3.141592654f;
 	
 	//Códigos de colores del png
 	static int BLOCK = 0x000000;
@@ -22,7 +23,8 @@ public class World {
 	static int END = 0xff00ff;
 	static int ENEMY = 0x0000ff;
 	static int COIN = 0x00ff00;
-
+	
+	
 	
 	public static final float gravityG=19f;
 	public VectorGravity gravity = new VectorGravity(0);
@@ -33,9 +35,9 @@ public class World {
 	public Exit exit;
 	public List<Block> blocks;	
 	
-	public int level;
-	public int score;
-	public int state;
+	int level;
+	int score;
+	int state;
 	float totalTime=0;
 
 	public World(int level) {
@@ -87,9 +89,8 @@ public class World {
 		totalTime+=deltaTime;
 		if(totalTime>2){
 			totalTime=0;
-			gravity.advance(1.56f);
-			hero.needRotation=true;
-			Gdx.app.log("e", ""+gravity.getAngle());
+			gravity.advance(PI/2);
+			hero.updateRotation(gravity.getAngle());
 		}
 	}
 
@@ -110,32 +111,6 @@ public class World {
 		for (int i = 0; i < len; i++) {
 			Coin coin = coins.get(i);
 			coin.update(deltaTime);
-		}
-	}
-
-	private void checkCollisions () {
-		checkBlockCollisions ();
-		checkEnemiesCollisions ();
-	}
-
-	private void checkBlockCollisions () {
-		int len = blocks.size();
-		for (int i = 0; i < len; i++) {
-			Block block = blocks.get(i);
-			if (CollisionTest.collision(block.bounds, hero.bounds)) {
-				//No puede acabarse ese movimiento.
-			}
-		}
-
-	}
-
-	private void checkEnemiesCollisions () {
-		int len = enemies.size();
-		for (int i = 0; i < len; i++) {
-			Enemy enemy = enemies.get(i);
-			if (CollisionTest.collision(enemy.bounds, hero.bounds)) {
-				//morirse o quitar vida
-			}
 		}
 	}
 
