@@ -2,6 +2,7 @@ package com.goingnowhere.logic;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Matrix3;
+import com.badlogic.gdx.math.Vector2;
 import com.goingnowhere.utils.CollisionTest;
 
 public class Hero extends DynamicGameObject {
@@ -21,6 +22,7 @@ public class Hero extends DynamicGameObject {
 	
 	int state;
 	int direction;
+	Vector2 rotatedAdvance=new Vector2(0,0);
 	public boolean flipped=false;
 	public boolean needRotation=false;
 	float angle;
@@ -63,41 +65,56 @@ public class Hero extends DynamicGameObject {
 			}
 		}
 	}
-	
+	private void polarMove(float dx, float angle){
+		float px=(float) (dx*Math.cos(angle));
+		float py=(float) (dx*Math.sin(angle));
+		bounds.x+=px;
+		bounds.y+=py;
+		position.add(px,py);
+	}
 	private void tryMove(float dx,float dy){
 		//TODO hacer una lista de bloques candidatos a colisión para no tener que mirar todos y mejorar rendimiento
-		//TODO si se va a mantener la cuadrícula de bloques del map se podría simplificar mucho todo teniendo en cuenta que 
-		//...solo vas a encontrar bloques en las posiciones enteras
-		bounds.x+=dx;
+		rotatedAdvance.set(dx, dy);
+		rotatedAdvance.rotate(-angle*180/World.PI);
+		
+		polarMove(rotatedAdvance.x, this.angle);
 		boolean contact=false;
 		int len = world.blocks.size();
 		for (int i = 0; i < len; i++) {
 			Block block = world.blocks.get(i);
 			while (CollisionTest.collision(block.bounds, bounds)) {
-				bounds.x-=dx/2;
+				polarMove(-rotatedAdvance.x/2, this.angle);
 				contact=true;
-				canJump=true;
 			}
 		}
 		if(contact){
+			vel.rotate(-angle*180/World.PI);
+			rotatedAdvance.x=0;
 			vel.x=0;
-			dx=0;
+			vel.rotate(angle*180/World.PI);
 			contact=false;
 		}
-		bounds.y+=dy;
+		
+		polarMove(rotatedAdvance.y, this.angle+World.PI/2);
 		for (int i = 0; i < len; i++) {
 			Block block = world.blocks.get(i);
 			while (CollisionTest.collision(block.bounds, bounds)) {
-				bounds.y-=dy/2;
+				polarMove(-rotatedAdvance.y/2, this.angle+World.PI/2);
 				contact=true;
 				canJump=true;
 			}
 		}
 		if(contact){
+			vel.rotate(-angle*180/World.PI);
+			rotatedAdvance.y=0;
 			vel.y=0;
-			dy=0;
+			vel.rotate(angle*180/World.PI);
+			contact=false;
 		}
-		position.set(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+		rotatedAdvance.rotate(angle*180/World.PI);
+		dx=rotatedAdvance.x;
+		dy=rotatedAdvance.y;
+		
 	}
 	public void goRight(){
 		accel.set((float) (HERO_ACCELERATION*Math.cos(angle)),(float) (HERO_ACCELERATION*Math.sin(angle)));
@@ -116,7 +133,6 @@ public class Hero extends DynamicGameObject {
 			float jumpAngle=angle+World.PI/2;
 			vel.add((float) (HERO_JUMP_SPEED*Math.cos(jumpAngle)),(float) (HERO_JUMP_SPEED*Math.sin(jumpAngle)));
 			canJump=false;
-			Gdx.app.log("e","3");
 		}
 	}
 	

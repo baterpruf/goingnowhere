@@ -17,6 +17,7 @@ public class VectorGravity extends Vector2 {
 	}
 	
 	public void setAngle(float angle){
+		this.angle=angle;
 		this.x=(float) (World.gravityG*Math.cos(angle));
 		this.y=(float) (World.gravityG*Math.sin(angle));
 	}
@@ -28,6 +29,7 @@ public class VectorGravity extends Vector2 {
 		if(angle>6.24){
 			angle=0;
 		}
+		setAngle(angle);
 	}
 
 }

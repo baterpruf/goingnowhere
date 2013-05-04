@@ -87,10 +87,12 @@ public class World {
 		//checkCollisions();
 		checkGameOver();
 		totalTime+=deltaTime;
-		if(totalTime>2){
+		if(totalTime>3){
 			totalTime=0;
 			gravity.advance(PI/2);
+			//gravity.setAngle(3.1416f);
 			hero.updateRotation(gravity.getAngle());
+			Gdx.app.log("w", ""+gravity.getAngle());
 		}
 	}
 
