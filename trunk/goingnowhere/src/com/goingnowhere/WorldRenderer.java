@@ -74,16 +74,16 @@ public class WorldRenderer {
 	    	  batch.draw(coinImage, cn.position.x, cn.position.y);
 	      }
 	      if(world.hero.getDirection()==-1 && !world.hero.flipped){
-	    	  heroSprite.flip(true,false);
+	    	  //heroSprite.flip(true,false);
 	    	  world.hero.flipped=true;
 	      }
 	      if(world.hero.getDirection()==1 && world.hero.flipped){
-	    	  heroSprite.flip(true,false);
+	    	  //heroSprite.flip(true,false);
 	    	  world.hero.flipped=false;
 	      }
 	      if(world.hero.needRotation){
 	    	  world.hero.needRotation=false;
-	    	  heroSprite.setRotation(world.gravity.getAngle()*180/(World.PI));
+	    	  heroSprite.setRotation(world.gravity.getAngle()*180/(World.PI)+90);
 	      }
 	      //batch.draw(heroSprite, world.hero.position.x, world.hero.position.y);
 	      heroSprite.setX(world.hero.position.x);
