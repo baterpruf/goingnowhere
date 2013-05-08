@@ -89,10 +89,9 @@ public class World {
 		totalTime+=deltaTime;
 		if(totalTime>3){
 			totalTime=0;
-			gravity.advance(PI/2);
+			//gravity.advance(PI*2/4);
 			//gravity.setAngle(3.1416f);
-			hero.updateRotation(gravity.getAngle());
-			Gdx.app.log("w", ""+gravity.getAngle());
+			//hero.updateRotation(gravity.getWorldAngle());
 		}
 	}
 
