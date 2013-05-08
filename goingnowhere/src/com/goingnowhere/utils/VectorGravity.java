@@ -31,5 +31,8 @@ public class VectorGravity extends Vector2 {
 		}
 		setAngle(angle);
 	}
+	public float getWorldAngle(){
+		return angle-World.PI/2;
+	}
 
 }

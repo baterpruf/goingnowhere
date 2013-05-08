@@ -42,16 +42,16 @@ public class Hero extends DynamicGameObject {
 	public void updateRotation(float angle){
 		needRotation=true;
 		rotMatrix.setToRotation(angle*180/World.PI);
-		this.angle=angle+World.PI/2;
+		this.angle=angle;
 	}
 	public void update(float deltaTime){
 		if(!canJump){
-			vel.set((Math.abs(vel.x)-0.3f)*Math.signum(vel.x),(Math.abs(vel.y)-0.3f)*Math.signum(vel.y));
+			//vel.set((Math.abs(vel.x))*Math.signum(vel.x),(Math.abs(vel.y))*Math.signum(vel.y));
 		}
 		if((vel.len())<=HERO_MAX_SPEED){
 			vel.add(accel.x*deltaTime*direction,accel.y*deltaTime*direction);
 		}
-		vel.add( world.gravity.y * deltaTime, world.gravity.x * deltaTime);
+		vel.add( 0, world.gravityG * deltaTime);
 		tryMove(vel.x*deltaTime*20,vel.y*deltaTime*20);
 		int len = world.coins.size();
 		for (int i = 0; i < len; i++) {
@@ -65,9 +65,9 @@ public class Hero extends DynamicGameObject {
 			}
 		}
 	}
-	private void polarMove(float dx, float angle){
-		float px=(float) (dx*Math.cos(angle));
-		float py=(float) (dx*Math.sin(angle));
+	private void polarMove(float d, float angle){
+		float px=(float) (d*Math.cos(angle));
+		float py=(float) (d*Math.sin(angle));
 		bounds.x+=px;
 		bounds.y+=py;
 		position.add(px,py);
@@ -75,7 +75,7 @@ public class Hero extends DynamicGameObject {
 	private void tryMove(float dx,float dy){
 		//TODO hacer una lista de bloques candidatos a colisión para no tener que mirar todos y mejorar rendimiento
 		rotatedAdvance.set(dx, dy);
-		rotatedAdvance.rotate(-angle*180/World.PI);
+		//rotatedAdvance.rotate(-angle*180/World.PI);
 		
 		polarMove(rotatedAdvance.x, this.angle);
 		boolean contact=false;
@@ -117,11 +117,11 @@ public class Hero extends DynamicGameObject {
 		
 	}
 	public void goRight(){
-		accel.set((float) (HERO_ACCELERATION*Math.cos(angle)),(float) (HERO_ACCELERATION*Math.sin(angle)));
+		accel.add((float) HERO_ACCELERATION,0);
 		direction=1;
 	}
 	public void goLeft(){
-		accel.set((float) (HERO_ACCELERATION*Math.cos(angle)),(float) (HERO_ACCELERATION*Math.sin(angle)));
+		accel.set(-(float) HERO_ACCELERATION,0);
 		direction=-1;
 	}
 	public void stop(){
@@ -130,8 +130,7 @@ public class Hero extends DynamicGameObject {
 
 	public void jump(){
 		if(canJump){
-			float jumpAngle=angle+World.PI/2;
-			vel.add((float) (HERO_JUMP_SPEED*Math.cos(jumpAngle)),(float) (HERO_JUMP_SPEED*Math.sin(jumpAngle)));
+			vel.add(0,(float) HERO_JUMP_SPEED);
 			canJump=false;
 		}
 	}
