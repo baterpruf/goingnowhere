@@ -25,8 +25,7 @@ public class Hero extends DynamicGameObject {
 	Vector2 rotatedAdvance=new Vector2(0,0);
 	public boolean flipped=false;
 	public boolean needRotation=false;
-	float angle;
-	Matrix3 rotMatrix=new Matrix3();
+	public float angle;
 	int coins;
 	boolean canJump=false;
 	World world;
@@ -36,12 +35,12 @@ public class Hero extends DynamicGameObject {
 	public Hero (World world, float x, float y) {
 		super(x, y, HERO_WIDTH, HERO_HEIGHT);
 		this.world=world;
+		angle=world.gravity.getWorldAngle();
 		state = IDLE;
-		rotMatrix.idt();
+		needRotation=true;
 	}
 	public void updateRotation(float angle){
-		needRotation=true;
-		rotMatrix.setToRotation(angle*180/World.PI);
+		//needRotation=true;
 		this.angle=angle;
 	}
 	public void update(float deltaTime){
@@ -49,9 +48,9 @@ public class Hero extends DynamicGameObject {
 			//vel.set((Math.abs(vel.x))*Math.signum(vel.x),(Math.abs(vel.y))*Math.signum(vel.y));
 		}
 		if((vel.len())<=HERO_MAX_SPEED){
-			vel.add(accel.x*deltaTime*direction,accel.y*deltaTime*direction);
+			vel.add(accel.x*deltaTime,accel.y*deltaTime);
 		}
-		vel.add( 0, world.gravityG * deltaTime);
+		vel.add( 0, -world.gravityG * deltaTime);
 		tryMove(vel.x*deltaTime*20,vel.y*deltaTime*20);
 		int len = world.coins.size();
 		for (int i = 0; i < len; i++) {
@@ -59,15 +58,14 @@ public class Hero extends DynamicGameObject {
 			if (CollisionTest.collision(coin.bounds, bounds)) {
 				world.coins.remove(coin);
 				//ganar puntos, eliminar moneda
-				Gdx.app.log("", ""+i);
 				coins++;
 				break;
 			}
 		}
 	}
 	private void polarMove(float d, float angle){
-		float px=(float) (d*Math.cos(angle));
-		float py=(float) (d*Math.sin(angle));
+		float px=(float) (d*Math.cos(angle*World.PI/180));
+		float py=(float) (d*Math.sin(angle*World.PI/180));
 		bounds.x+=px;
 		bounds.y+=py;
 		position.add(px,py);
@@ -75,7 +73,7 @@ public class Hero extends DynamicGameObject {
 	private void tryMove(float dx,float dy){
 		//TODO hacer una lista de bloques candidatos a colisión para no tener que mirar todos y mejorar rendimiento
 		rotatedAdvance.set(dx, dy);
-		//rotatedAdvance.rotate(-angle*180/World.PI);
+		//rotatedAdvance.rotate(-angle*180);
 		
 		polarMove(rotatedAdvance.x, this.angle);
 		boolean contact=false;
@@ -88,30 +86,30 @@ public class Hero extends DynamicGameObject {
 			}
 		}
 		if(contact){
-			vel.rotate(-angle*180/World.PI);
+			//vel.rotate(-angle*180/World.PI);
 			rotatedAdvance.x=0;
 			vel.x=0;
-			vel.rotate(angle*180/World.PI);
+			//vel.rotate(angle*180/World.PI);
 			contact=false;
 		}
 		
-		polarMove(rotatedAdvance.y, this.angle+World.PI/2);
+		polarMove(rotatedAdvance.y, this.angle+90);
 		for (int i = 0; i < len; i++) {
 			Block block = world.blocks.get(i);
 			while (CollisionTest.collision(block.bounds, bounds)) {
-				polarMove(-rotatedAdvance.y/2, this.angle+World.PI/2);
+				polarMove(-rotatedAdvance.y/2, this.angle+90);
 				contact=true;
 				canJump=true;
 			}
 		}
 		if(contact){
-			vel.rotate(-angle*180/World.PI);
+			//vel.rotate(-angle*180/World.PI);
 			rotatedAdvance.y=0;
 			vel.y=0;
-			vel.rotate(angle*180/World.PI);
+			//vel.rotate(angle*180/World.PI);
 			contact=false;
 		}
-		rotatedAdvance.rotate(angle*180/World.PI);
+		//rotatedAdvance.rotate(angle*180/World.PI);
 		dx=rotatedAdvance.x;
 		dy=rotatedAdvance.y;
 		

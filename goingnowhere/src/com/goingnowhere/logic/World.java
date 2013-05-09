@@ -48,7 +48,6 @@ public class World {
 		generateLevel();
 		this.state=WORLD_STATE_PLAY;
 		this.score = 0;
-		Gdx.app.log("g", ""+gravity.x+"-"+gravity.y);
 	}
 
 	private void generateLevel () {
@@ -87,11 +86,11 @@ public class World {
 		//checkCollisions();
 		checkGameOver();
 		totalTime+=deltaTime;
+		hero.updateRotation(gravity.getWorldAngle());
 		if(totalTime>3){
 			totalTime=0;
 			//gravity.advance(PI*2/4);
 			//gravity.setAngle(3.1416f);
-			//hero.updateRotation(gravity.getWorldAngle());
 		}
 	}
 
