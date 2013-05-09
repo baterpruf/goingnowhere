@@ -27,6 +27,10 @@ public class MyInputProcessor implements InputProcessor {
 		if(keycode==Keys.W){
 			world.hero.jump();
 		}
+		if(keycode==Keys.I){
+			Gdx.app.log("gravity angle", ""+world.gravity.getAngle());
+			Gdx.app.log("hero angle", ""+world.hero.angle);
+		}
 		return false;
 	}
 

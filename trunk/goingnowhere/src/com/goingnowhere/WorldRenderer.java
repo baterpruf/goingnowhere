@@ -83,8 +83,8 @@ public class WorldRenderer {
 	      }
 	      if(world.hero.needRotation){
 	    	  world.hero.needRotation=false;
-	    	  heroSprite.setRotation(world.gravity.getWorldAngle()*180/(World.PI));
-	    	  Gdx.app.log("w", ""+world.gravity.getWorldAngle()*180/(World.PI));
+	    	  heroSprite.setRotation(world.gravity.getWorldAngle());
+	    	  Gdx.app.log("w", ""+world.gravity.getWorldAngle());
 	      }
 	      //batch.draw(heroSprite, world.hero.position.x, world.hero.position.y);
 	      heroSprite.setX(world.hero.position.x);
