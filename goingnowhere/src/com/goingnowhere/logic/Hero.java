@@ -29,6 +29,7 @@ public class Hero extends DynamicGameObject {
 	int coins;
 	boolean canJump=false;
 	World world;
+	Vector2 opposite=new Vector2(0,0);
 	public String debugMessage;
 	
 	
@@ -46,6 +47,10 @@ public class Hero extends DynamicGameObject {
 	public void update(float deltaTime){
 		if(!canJump){
 			//vel.set((Math.abs(vel.x))*Math.signum(vel.x),(Math.abs(vel.y))*Math.signum(vel.y));
+		}else{
+			//damping
+			opposite.set(-vel.x*DAMP,-vel.y*DAMP);
+			accel.add(opposite);
 		}
 		if((vel.len())<=HERO_MAX_SPEED){
 			vel.add(accel.x*deltaTime,accel.y*deltaTime);
