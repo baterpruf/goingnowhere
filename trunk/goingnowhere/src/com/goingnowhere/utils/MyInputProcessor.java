@@ -48,7 +48,7 @@ public class MyInputProcessor implements InputProcessor {
 		if(keycode==Keys.Q){
 			int newAngle=(int)Math.floor(Math.random()*4)*90;
 			Gdx.app.log("grav:", ""+newAngle);
-			world.gravity.setAngle(newAngle);
+			world.gravity.advance(45);
 			world.hero.needRotation=true;
 		}
 		return false;
