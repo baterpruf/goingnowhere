@@ -10,8 +10,8 @@ public class Hero extends DynamicGameObject {
 	public static final float HERO_HEIGHT = 32f;
 	public static final float HERO_ACCELERATION = 35f;	
 	public static final float HERO_JUMP_SPEED = 9f;
-	public static final float HERO_MAX_SPEED=6f;
-	public static final float DAMP=0.15f;
+	public static final float HERO_MAX_SPEED=10f;
+	public static final float DAMP=0.1f;
 	
 	static final int IDLE = 0;
 	static final int RUN = 1;
@@ -29,7 +29,6 @@ public class Hero extends DynamicGameObject {
 	int coins;
 	boolean canJump=false;
 	World world;
-	Vector2 opposite=new Vector2(0,0);
 	public String debugMessage;
 	
 	
@@ -45,12 +44,12 @@ public class Hero extends DynamicGameObject {
 		this.angle=angle;
 	}
 	public void update(float deltaTime){
-		if(!canJump){
-			//vel.set((Math.abs(vel.x))*Math.signum(vel.x),(Math.abs(vel.y))*Math.signum(vel.y));
-		}else{
-			//damping
-			opposite.set(-vel.x*DAMP,-vel.y*DAMP);
-			accel.add(opposite);
+		//damping
+		if(accel.len()<=0.1){
+			vel.set(vel.x*(1-DAMP),vel.y);
+			if(vel.len()<0.01){
+				vel.set(0,0);
+			}
 		}
 		if((vel.len())<=HERO_MAX_SPEED){
 			vel.add(accel.x*deltaTime,accel.y*deltaTime);
@@ -109,11 +108,17 @@ public class Hero extends DynamicGameObject {
 		}
 	}
 	public void goRight(){
-		accel.add((float) HERO_ACCELERATION,0);
+		if(vel.x<0){
+			vel.x=0;
+		}
+		accel.x=(float) HERO_ACCELERATION;
 		direction=1;
 	}
 	public void goLeft(){
-		accel.set(-(float) HERO_ACCELERATION,0);
+		if(vel.x>0){
+			vel.x=0;
+		}
+		accel.x=-(float) HERO_ACCELERATION;
 		direction=-1;
 	}
 	public void stop(){
