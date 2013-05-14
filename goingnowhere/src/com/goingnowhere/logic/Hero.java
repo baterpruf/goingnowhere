@@ -141,4 +141,9 @@ public class Hero extends DynamicGameObject {
 	public int getDirection(){
 		return direction;
 	}
+	public void rotate(int i) {
+		world.gravity.advance(i);
+		vel.rotate(i);
+		world.hero.needRotation=true;
+	}
 }
