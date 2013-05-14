@@ -74,11 +74,11 @@ public class WorldRenderer {
 	    	  batch.draw(coinImage, cn.position.x, cn.position.y);
 	      }
 	      if(world.hero.getDirection()==-1 && !world.hero.flipped){
-	    	  //heroSprite.flip(true,false);
+	    	  heroSprite.flip(true,false);
 	    	  world.hero.flipped=true;
 	      }
 	      if(world.hero.getDirection()==1 && world.hero.flipped){
-	    	  //heroSprite.flip(true,false);
+	    	  heroSprite.flip(true,false);
 	    	  world.hero.flipped=false;
 	      }
 	      if(world.hero.needRotation){
