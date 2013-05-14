@@ -27,7 +27,7 @@ public class World {
 	
 	
 	public static final float gravityG=19f;
-	public VectorGravity gravity = new VectorGravity(0);
+	public VectorGravity gravity = new VectorGravity(270);
 
 	public Hero hero;
 	public List<Enemy> enemies;
