@@ -10,7 +10,8 @@ public class MyInputProcessor implements InputProcessor {
 	int jumpPointer;
 	int leftPointer;
 	int rightPointer;
-	
+	float width=(float)Gdx.graphics.getWidth();
+	float height=(float)Gdx.graphics.getHeight();
 	
 	public MyInputProcessor(World world){
 		this.world=world;
@@ -31,6 +32,12 @@ public class MyInputProcessor implements InputProcessor {
 			Gdx.app.log("gravity angle", ""+world.gravity.getAngle());
 			Gdx.app.log("hero angle", ""+world.hero.angle);
 		}
+		if(keycode==Keys.Q){
+			world.hero.rotate(45);
+		}
+		if(keycode==Keys.E){
+			world.hero.rotate(-45);
+		}
 		return false;
 	}
 
@@ -45,12 +52,6 @@ public class MyInputProcessor implements InputProcessor {
 		if(keycode==Keys.W){
 
 		}
-		if(keycode==Keys.Q){
-			world.hero.rotate(45);
-		}
-		if(keycode==Keys.E){
-			world.hero.rotate(-45);
-		}
 		return false;
 	}
 
@@ -61,16 +62,25 @@ public class MyInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean touchDown (int x, int y, int pointer, int button) {
-		float width=(float)Gdx.graphics.getWidth();
-		if(x<0.25*width){
-			world.hero.goLeft();
-			leftPointer=pointer;
-		}else if(x<0.5*width){
-			world.hero.goRight();
-			rightPointer=pointer;
+		if(y<0.5*height){
+			if(x<0.5*width){
+				world.hero.rotate(45);
+			}
+			if(x>0.5*width){
+				world.hero.rotate(-45);
+			}
 		}else{
-			world.hero.jump();
-			jumpPointer=pointer;
+
+			if(x<0.25*width){
+				world.hero.goLeft();
+				leftPointer=pointer;
+			}else if(x<0.5*width){
+				world.hero.goRight();
+				rightPointer=pointer;
+			}else{
+				world.hero.jump();
+				jumpPointer=pointer;
+			}
 		}
 		return false;
 	}
