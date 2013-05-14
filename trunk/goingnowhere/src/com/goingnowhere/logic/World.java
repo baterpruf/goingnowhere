@@ -73,7 +73,6 @@ public class World {
 				}
 			}
 		}
-		//Gdx.app.log("Info", "resultado: "+pix);
 	}
 	boolean match (int src, int dst) {
 		return src == dst;
@@ -87,11 +86,6 @@ public class World {
 		checkGameOver();
 		totalTime+=deltaTime;
 		hero.updateRotation(gravity.getWorldAngle());
-		if(totalTime>3){
-			totalTime=0;
-			//gravity.advance(PI*2/4);
-			//gravity.setAngle(3.1416f);
-		}
 	}
 
 	private void updateHero (float deltaTime) {
