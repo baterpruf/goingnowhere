@@ -1,7 +1,6 @@
 package com.goingnowhere.logic;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 import com.goingnowhere.utils.CollisionTest;
 
@@ -142,8 +141,11 @@ public class Hero extends DynamicGameObject {
 		return direction;
 	}
 	public void rotate(int i) {
-		world.gravity.advance(i);
-		vel.rotate(i);
-		world.hero.needRotation=true;
+		if(world.getGravityChangesLeft()>0){
+			world.consumeGravityChange();
+			world.gravity.advance(i);
+			vel.rotate(i);
+			needRotation=true;
+		}
 	}
 }
