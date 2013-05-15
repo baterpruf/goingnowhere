@@ -7,9 +7,18 @@ import com.goingnowhere.logic.World;
 
 public class MyInputProcessor implements InputProcessor {
 	World world;
+	public static final int NONE = 0;
+	public static final int LEFT = 1;
+	public static final int RIGHT = 2;
+	public static final int JUMP = 3;
+	public static final int ROTATELEFT = 4;
+	public static final int ROTATERIGHT = 5;
 	int jumpPointer;
 	int leftPointer;
 	int rightPointer;
+	int rotateRightPointer;
+	int rotateLeftPointer;
+	int isPressed;
 	float width=(float)Gdx.graphics.getWidth();
 	float height=(float)Gdx.graphics.getHeight();
 	
@@ -64,10 +73,12 @@ public class MyInputProcessor implements InputProcessor {
 	public boolean touchDown (int x, int y, int pointer, int button) {
 		if(y<0.5*height){
 			if(x<0.5*width){
-				world.hero.rotate(45);
+				rotateRightPointer=pointer;
+				isPressed=ROTATERIGHT;
 			}
 			if(x>0.5*width){
-				world.hero.rotate(-45);
+				rotateLeftPointer=pointer;
+				isPressed=ROTATELEFT;
 			}
 		}else{
 
@@ -87,6 +98,23 @@ public class MyInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean touchUp (int x, int y, int pointer, int button) {
+		if(y<0.5*height){
+			if(x<0.5*width){
+				if(isPressed==ROTATELEFT){
+					world.hero.rotate(180);
+				}else{
+					world.hero.rotate(45);
+				}
+			}
+			if(x>0.5*width){
+				if(isPressed==ROTATERIGHT){
+					world.hero.rotate(180);
+				}else{
+					world.hero.rotate(-45);
+				}
+			}
+		}
+		isPressed=NONE;
 		if(pointer==leftPointer){
 			world.hero.stop();
 			leftPointer=-1;
