@@ -36,6 +36,7 @@ public class World {
 	public List<Block> blocks;	
 	
 	int level;
+	int gravityChangesLeft;
 	int score;
 	int state;
 	float totalTime=0;
@@ -48,6 +49,7 @@ public class World {
 		generateLevel();
 		this.state=WORLD_STATE_PLAY;
 		this.score = 0;
+		this.gravityChangesLeft=8;
 	}
 
 	private void generateLevel () {
@@ -110,5 +112,11 @@ public class World {
 
 	private void checkGameOver () {
 
+	}
+	public int getGravityChangesLeft(){
+		return gravityChangesLeft;
+	}
+	public void consumeGravityChange(){
+		gravityChangesLeft--;
 	}
 }

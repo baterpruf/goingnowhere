@@ -90,7 +90,7 @@ public class WorldRenderer {
 	      heroSprite.setY(world.hero.position.y);
 	      heroSprite.draw(batch);
 	      //font.draw(batch, "h: "+world.hero.debugMessage, cam.position.x,cam.position.y-100);
-	      font.draw(batch, "Score: "+world.hero.getCoins(), cam.position.x,cam.position.y-100);
+	      font.draw(batch, "Score: "+world.hero.getCoins()+"   G-Changes left:"+world.getGravityChangesLeft(), cam.position.x-40,cam.position.y-135);
 	      batch.draw(controlLeft, cam.position.x-180,cam.position.y-120);
 	      batch.draw(controlRight, cam.position.x-90,cam.position.y-120);
 	      batch.draw(controlUp, cam.position.x+120,cam.position.y-120);
