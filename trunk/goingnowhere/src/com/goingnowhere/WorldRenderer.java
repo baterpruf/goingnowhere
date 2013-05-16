@@ -31,6 +31,8 @@ public class WorldRenderer {
 	Sprite controlLeft;
 	Sprite controlRight;
 	Sprite controlUp;
+	Sprite controlRotateRight;
+	Sprite controlRotateLeft;
 	BitmapFont font;
 	
 	public WorldRenderer (World world) {
@@ -50,6 +52,10 @@ public class WorldRenderer {
 		controlLeft= new Sprite(controls,0,0,64,64);
 		controlRight= new Sprite(controls,64,0,64,64);
 		controlUp= new Sprite(controls,0,64,64,64);
+		controlRotateRight= new Sprite(controls,64,64,64,64);
+		controlRotateLeft= new Sprite(controls,64,64,64,64);
+		controlRotateLeft.flip(true,false);
+		
 		
 		font = new BitmapFont();
 	    font.setColor(1024,0,0,128);
@@ -94,6 +100,8 @@ public class WorldRenderer {
 	      batch.draw(controlLeft, cam.position.x-180,cam.position.y-120);
 	      batch.draw(controlRight, cam.position.x-90,cam.position.y-120);
 	      batch.draw(controlUp, cam.position.x+120,cam.position.y-120);
+	      batch.draw(controlRotateLeft, cam.position.x+120,cam.position.y+50);
+	      batch.draw(controlRotateRight, cam.position.x-180,cam.position.y+50);
 	      batch.end();
 	}
 }
