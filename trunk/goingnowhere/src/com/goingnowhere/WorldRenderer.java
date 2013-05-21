@@ -47,7 +47,7 @@ public class WorldRenderer {
 		blockImage = new Texture(Gdx.files.internal("data/block.png"));
 		coinImage = new Texture(Gdx.files.internal("data/coin.png"));
 		mapImage = new Texture(Gdx.files.internal("data/background1.png"));
-		backgroundImage = new Texture(Gdx.files.internal("data/background_buildings.png"));
+		backgroundImage = new Texture(Gdx.files.internal("data/mapa_r1.png"));
 		controls= new Texture(Gdx.files.internal("data/controls.png"));
 		controlLeft= new Sprite(controls,0,0,64,64);
 		controlRight= new Sprite(controls,64,0,64,64);
@@ -71,11 +71,8 @@ public class WorldRenderer {
 	      batch.setProjectionMatrix(cam.combined);
 
 	      batch.begin();
-	      //batch.draw(backgroundImage, -240,-192);
+	      batch.draw(backgroundImage, 0,0);
 	      //batch.draw(mapImage, -240,-192);
-	      for(Block bl: world.blocks){
-	    	  batch.draw(blockImage, bl.position.x, bl.position.y);
-	      }
 	      for(Coin cn: world.coins){
 	    	  batch.draw(coinImage, cn.position.x, cn.position.y);
 	      }
