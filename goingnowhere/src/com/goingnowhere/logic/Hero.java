@@ -77,29 +77,25 @@ public class Hero extends DynamicGameObject {
 		//TODO hacer una lista de bloques candidatos a colisión para no tener que mirar todos y mejorar rendimiento
 		polarMove(dx, this.angle);
 		boolean contact=false;
-		int len = world.blocks.size();
-		for (int i = 0; i < len; i++) {
-			Block block = world.blocks.get(i);
-			while (CollisionTest.collision(block.bounds, bounds)) {
-				polarMove(-dx/2, this.angle);
-				contact=true;
-			}
+		while (CollisionTest.wallCollision(bounds)) {
+			polarMove(-dx/2, this.angle);
+			contact=true;
 		}
+
 		if(contact){
 			dx=0;
 			vel.x=0;
 			contact=false;
 		}
-		
+
 		polarMove(dy, this.angle+90);
-		for (int i = 0; i < len; i++) {
-			Block block = world.blocks.get(i);
-			while (CollisionTest.collision(block.bounds, bounds)) {
-				polarMove(-dy/2, this.angle+90);
-				contact=true;
-				canJump=true;
-			}
+
+		while (CollisionTest.wallCollision(bounds)) {
+			polarMove(-dy/2, this.angle+90);
+			contact=true;
+			canJump=true;
 		}
+
 		if(contact){
 			dy=0;
 			vel.y=0;

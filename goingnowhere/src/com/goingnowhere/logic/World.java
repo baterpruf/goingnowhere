@@ -40,6 +40,7 @@ public class World {
 	int score;
 	int state;
 	float totalTime=0;
+	Pixmap collisionMap;
 
 	public World(int level) {
 		this.level=level;
@@ -50,6 +51,8 @@ public class World {
 		this.state=WORLD_STATE_PLAY;
 		this.score = 0;
 		this.gravityChangesLeft=8;
+		Pixmap collisionMap = new Pixmap(Gdx.files.internal("data/mapa_r"+level+".png"));
+		CollisionTest collisionTest=new CollisionTest(collisionMap);
 	}
 
 	private void generateLevel () {
@@ -63,7 +66,7 @@ public class World {
 				int yp = (height - 1 - y)*20;
 				int pix = (pixmap.getPixel(x, y) >>> 8) & 0xffffff;
 				if (match(pix, START)) {
-					hero = new Hero( this, xp, yp);
+					hero = new Hero( this, 230, 250);
 				} else if (match(pix, ENEMY)) {
 					enemies.add(new Enemy(xp, yp));
 				} else if (match(pix, COIN)) {
