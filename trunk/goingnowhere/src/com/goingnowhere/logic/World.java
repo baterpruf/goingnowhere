@@ -57,24 +57,22 @@ public class World {
 
 	private void generateLevel () {
 		//Leer el png y poner los objetos donde toca.
-		Pixmap pixmap = new Pixmap(Gdx.files.internal("data/map"+level+".png"));
+		Pixmap pixmap = new Pixmap(Gdx.files.internal("data/mapa_r"+level+".png"));
 		int height = pixmap.getHeight();
 		int width = pixmap.getWidth();
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				int xp = x*20;
-				int yp = (height - 1 - y)*20;
+				int xp = x;
+				int yp = (height - 1 - y);
 				int pix = (pixmap.getPixel(x, y) >>> 8) & 0xffffff;
 				if (match(pix, START)) {
-					hero = new Hero( this, 230, 250);
+					hero = new Hero( this, xp, yp);
 				} else if (match(pix, ENEMY)) {
 					enemies.add(new Enemy(xp, yp));
 				} else if (match(pix, COIN)) {
 					coins.add(new Coin(xp, yp));
 				} else if (match(pix, END)) {
 					exit = new Exit(xp, yp);
-				} else if (match(pix, BLOCK)) {
-					blocks.add(new Block(xp, yp));
 				}
 			}
 		}

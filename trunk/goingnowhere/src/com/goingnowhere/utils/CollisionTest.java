@@ -20,9 +20,7 @@ public class CollisionTest {
     }
     
     public static boolean wallCollision (Rectangle rect) {
-        Gdx.app.log("xy", rect.x+" "+rect.y);
         int a=(CollisionTest.pixmap.getPixel((int)rect.x, 1024-(int)rect.y)>>> 8) & 0xffffff;
-        Gdx.app.log("xy", a+" ");
         int b=(pixmap.getPixel((int)(rect.x+rect.width), 1024-(int)rect.y)>>> 8) & 0xffffff;
         int c=(pixmap.getPixel((int)rect.x, 1024-(int)(rect.y+rect.height))>>> 8) & 0xffffff;
         int d=(pixmap.getPixel((int)(rect.x+rect.width), 1024-(int)(rect.y+rect.height))>>> 8) & 0xffffff;

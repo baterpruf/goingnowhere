@@ -89,8 +89,8 @@ public class WorldRenderer {
 	    	  heroSprite.setRotation(world.gravity.getWorldAngle());
 	      }
 	      //batch.draw(heroSprite, world.hero.position.x, world.hero.position.y);
-	      heroSprite.setX(world.hero.position.x);
-	      heroSprite.setY(world.hero.position.y);
+	      heroSprite.setX(world.hero.bounds.x);
+	      heroSprite.setY(world.hero.bounds.y);
 	      heroSprite.draw(batch);
 	      //font.draw(batch, "h: "+world.hero.debugMessage, cam.position.x,cam.position.y-100);
 	      font.draw(batch, "Score: "+world.hero.getCoins()+"   G-Changes left:"+world.getGravityChangesLeft(), cam.position.x-40,cam.position.y-135);
