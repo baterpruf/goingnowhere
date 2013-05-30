@@ -144,4 +144,12 @@ public class Hero extends DynamicGameObject {
 			needRotation=true;
 		}
 	}
+	public void setRotation(int i) {
+		if(world.getGravityChangesLeft()>0){
+			world.consumeGravityChange();
+			world.gravity.setAngle(i);
+			vel.setAngle(i);
+			needRotation=true;
+		}
+	}
 }
