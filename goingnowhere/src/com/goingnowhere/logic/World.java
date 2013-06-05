@@ -50,7 +50,7 @@ public class World {
 		generateLevel();
 		this.state=WORLD_STATE_PLAY;
 		this.score = 0;
-		this.gravityChangesLeft=8;
+		this.gravityChangesLeft=18;
 		Pixmap collisionMap = new Pixmap(Gdx.files.internal("data/mapa_r"+level+".png"));
 		CollisionTest collisionTest=new CollisionTest(collisionMap);
 	}

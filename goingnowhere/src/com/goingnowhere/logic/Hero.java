@@ -75,7 +75,7 @@ public class Hero extends DynamicGameObject {
 	}
 	private void tryMove(float dx,float dy){
 		//TODO hacer una lista de bloques candidatos a colisión para no tener que mirar todos y mejorar rendimiento
-		polarMove(dx, this.angle);
+		polarMove(dx, this.angle+direction);
 		boolean contact=false;
 		while (CollisionTest.wallCollision(bounds)) {
 			polarMove(-dx/2, this.angle);
