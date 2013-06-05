@@ -25,7 +25,7 @@ public class VectorGravity extends Vector2 {
 	public void advance(float alpha){
 		angle+=alpha;
 		if(angle>=360){
-			angle=0;
+			angle-=360;
 		}
 		setAngle(angle);
 	}
